@@ -49,7 +49,7 @@ const Home = () => {
           <tr key={index}>
             <td>{empresa.Nombre}</td>
             <td>
-              <Link className='underline' to={`/${index + 1}/empresaHome`}>URL PÁGINA HOME</Link>
+              <Link className='underline' to={`/${empresa.id}/empresaHome`}>URL PÁGINA HOME</Link>
             </td>
           </tr>
         ))}
