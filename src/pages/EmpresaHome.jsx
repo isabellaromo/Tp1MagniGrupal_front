@@ -1,52 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Buscador from './Buscador'
 import BannerEmpresa from '../components/BannerEmpresa'
 import HeaderEmpresa from '../components/headerEmpresa'
+
+const initialEmpresas = {
+  id: null,
+  denominacion: '',
+  telefono: '',
+  horarioAtencion: '',
+  quienesSomos: '',
+  latitud: null,
+  longitud: null,
+  domicilio: '',
+  email: '',
+  listaNoticia: [],
+}
+
 const EmpresaHome = () => {
   const { empresaId } = useParams()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const [empresaYNoticias, setEmpresaYNoticias] = useState(initialEmpresas)
 
-  const empresa_info = {
-    id: 1,
-    denominacion: 'El Sol',
-    telefono: '+54 11 1234-5678',
-    horarioAtencion: 'Lunes a Viernes de 8:00 a 18:00 hs',
-    quienesSomos:
-      'Somos un medio de comunicación digital comprometido con la verdad y la objetividad, brindando noticias en tiempo real sobre política, economía, tecnología y más.',
-    latitud: 40.416775,
-    longitud: -3.70379,
-    domicilio: 'Av. Siempre Viva 742, Buenos Aires, Argentina',
-    email: 'contacto@noticiashoy.com',
-  }
+  useEffect(() => {
+    const getEmpresaYNoticias = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(
+          `http://localhost:8080/empresa/get/${empresaId}`
+        )
+        if (!response.ok) {
+          throw new Error('Error en la respuesta del servidor')
+        }
+        const responseJSON = await response.json()
+        setEmpresaYNoticias(responseJSON)
+      } catch (error) {
+        setError(`Error: ${error.message}`)
+      } finally {
+        setIsLoading(false)
+      }
+    }
 
-  const noticia = {
-    id: 1,
-    titulo: 'Descubren Ciudad Perdida Bajo el Desierto del Sahara',
-    resumen:
-      'Arqueólogos afirman haber encontrado una metrópolis oculta bajo las arenas del Sahara, repleta de templos y tecnología avanzada que podría cambiar la historia de la humanidad.',
-    imagen:
-      'https://resizer.glanacion.com/resizer/v2/el-sahara-se-extiende-a-lo-largo-de-4800-AEPKCH33KZHFZGWCOFTRTHXTEM.jpg?auth=d3cfa3a833cc0fa628c1f499f877071cdc88920d493f02f15a2963fab9c3731f&width=1280&height=854&quality=70&smart=true',
-    contenidoHTML: '?',
-    publicada: 'Y',
-    fechaPublicacion: '2024-04-30',
-  }
+    getEmpresaYNoticias()
+  }, [])
 
+  if (isLoading) return <p>Cargando...</p>
   return (
     <div>
       <p>Mostrando información de la empresa con ID: {empresaId}</p>
-      <HeaderEmpresa empresa={empresa_info} />
+      <HeaderEmpresa empresa={empresaYNoticias} />
       <Buscador />
-      <BannerEmpresa noticia={noticia} />
+      <BannerEmpresa noticias={empresaYNoticias.listaNoticia} />
       <div className="border-b-10 border-[#98c1d9] flex flex-col justify-center items-center h-[50%] w-full py-10 bg-[#e0fbfc]">
         <h2 className="font-bold text-6xl text-[#ee6c4d]">QUIENES SOMOS</h2>
-        <p className="w-[50%] text-xl py-5">{empresa_info.quienesSomos}</p>
+        <p className="w-[50%] text-xl py-5">{empresaYNoticias.quienesSomos}</p>
       </div>
       <div className="border-b-10 border-[#98c1d9] flex flex-col justify-center items-center h-[50%] w-full py-10 bg-[#e0fbfc]">
         <h2 className="font-bold text-6xl text-[#ee6c4d] mb-10">
           DONDE ESTAMOS
         </h2>
         <iframe
-          src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1000!2d${empresa_info.longitud}!3d${empresa_info.latitud}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sar!4v1615335513448`}
+          src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d1000!2d${empresaYNoticias.longitud}!3d${empresaYNoticias.latitud}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1ses-419!2sar!4v1615335513448`}
           width="1600"
           height="400"
           className="border:0;"
