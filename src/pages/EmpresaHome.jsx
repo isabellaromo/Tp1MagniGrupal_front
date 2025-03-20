@@ -51,7 +51,10 @@ const EmpresaHome = () => {
       <p>Mostrando información de la empresa con ID: {empresaId}</p>
       <HeaderEmpresa empresa={empresaYNoticias} />
       <Buscador />
-      <BannerEmpresa noticias={empresaYNoticias.listaNoticia} />
+      <BannerEmpresa
+        noticias={empresaYNoticias.listaNoticia}
+        empresaId={empresaId}
+      />
       <div className="border-b-10 border-[#98c1d9] flex flex-col justify-center items-center h-[50%] w-full py-10 bg-[#e0fbfc]">
         <h2 className="font-bold text-6xl text-[#ee6c4d]">QUIENES SOMOS</h2>
         <p className="w-[50%] text-xl py-5">{empresaYNoticias.quienesSomos}</p>
