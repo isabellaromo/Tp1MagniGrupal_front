@@ -45,7 +45,7 @@ const BannerEmpresa = ({ noticia }) => {
   return (
     <div className="relative w-full">
       {/* Carrusel */}
-      <div className="relative h-56 md:h-96 overflow-hidden rounded-lg">
+      <div className="relative h-[70vh] lg:h-[60vh] overflow-hidden rounded-lg">
         {images.map((image, index) => (
           <div
             key={index}
@@ -53,33 +53,36 @@ const BannerEmpresa = ({ noticia }) => {
               index === currentIndex ? 'opacity-100' : 'opacity-0'
             }`}
           >
+            {/* Imagen de fondo */}
             <img
               src={image.src}
               className="w-full h-full object-cover"
               alt={`Slide ${index + 1}`}
             />
-            {/* Texto Superpuesto */}
-            <div className="absolute inset-0 grid grid-cols-[4fr_1fr] items-end bg-black/50 text-white pt-10 pl-20 pr-10 pb-5">
-              <div className="max-w-[75%]">
-                <h2 className="width-full text-2xl font-bold bg-white text-black p-5">
-                  {image.titulo}
-                </h2>
-                <p className="w-[80%] text-md min-h-[130px] pl-5 pt-3">
-                  {image.resumen}
-                </p>
-              </div>
-              <button className="p-2 border-[0.1px] border-x-0 m-2 flex justify-end text-white text-2xl font-bold">
-                <Link to={`/${noticia.idEmpresa}/detalle/${noticia.id}`}>
-                  Ver Noticia →
-                </Link>
-              </button>
-            </div>
           </div>
         ))}
+
+        {/* Texto Superpuesto - Siempre Visible */}
+        <div className="z-10 absolute bottom-3 flex flex-col gap-4 lg:gap-0 lg:flex-row w-full justify-between lg:items-center text-white p-4">
+          <div className="md:w-[60%]">
+            <h2 className="text-xl font-bold bg-white text-black p-5 ">
+              {images[currentIndex].titulo}
+            </h2>
+            <p className="hidden lg:block">{images[currentIndex].resumen}</p>
+          </div>
+          <button className="md:w-[40%] cursor-pointer flex lg:justify-center text-white text-2xl font-bold h-max">
+            <Link
+              to={`/${noticia.idEmpresa}/detalle/${noticia.id}`}
+              className="w-max hover:text-amber-200 border-y-[0.1px] p-2"
+            >
+              Ver Noticia →
+            </Link>
+          </button>
+        </div>
       </div>
 
       {/* Indicadores */}
-      <div className="absolute bottom-5 left-1/2 flex space-x-3 -translate-x-1/2">
+      <div className="absolute bottom-2 lg:bottom-5 z-10 left-1/2 flex space-x-3 -translate-x-1/2">
         {images.map((_, index) => (
           <button
             key={index}
@@ -94,7 +97,7 @@ const BannerEmpresa = ({ noticia }) => {
       {/* Controles */}
       <button
         onClick={prevSlide}
-        className="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer"
+        className="absolute top-0 start-0 z-10 flex items-center justify-center h-full px-4 cursor-pointer"
       >
         <span className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50">
           <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 6 10">
@@ -125,6 +128,9 @@ const BannerEmpresa = ({ noticia }) => {
           </svg>
         </span>
       </button>
+
+      {/*Efecto de imagen Oscura*/}
+      <div className="absolute inset-0 w-full h-full bg-black/50"></div>
     </div>
   )
 }
