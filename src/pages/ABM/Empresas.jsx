@@ -24,19 +24,24 @@ const Empresas = () => {
       longitud: -58.381592,
       domicilio: "Av. Mendoza",
       email: "asdasd@noticiashoy.com",
-    }
+    },
   ];
 
   const [isModalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
-  const handleFormSubmit = (data) => console.log("Empresa guardada:", data);
+  const handleCloseModal = ({}) => {
+    setModalOpen(false);
+  };
+
+  const handleFormSubmit = (data) => {
+    console.log("Empresa guardada:", data);
+  };
 
   return (
     <div className="overflow-x-auto p-4">
       <div className="flex justify-between items-center">
-        <h2 className='text-2xl font-bold'>LISTADO DE EMPRESAS</h2>
+        <h2 className="text-2xl font-bold">LISTADO DE EMPRESAS</h2>
         <button
           onClick={handleOpenModal}
           className="bg-green-800 text-white text-2xl px-5 py-1 rounded-2xl shadow-md cursor-pointer shadow-gray-400 m-5"

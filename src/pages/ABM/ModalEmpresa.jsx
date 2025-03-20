@@ -1,14 +1,17 @@
 import React, { useState } from "react";
 
+const initialForm = {
+  denominacion: "",
+  telefono: "",
+  horarioAtencion: "",
+  quienesSomos: "",
+  domicilio: "",
+  email: ""
+}
+
 const ModalEmpresa = ({ isOpen, onClose, onSubmit }) => {
-  const [formData, setFormData] = useState({
-    denominacion: "",
-    telefono: "",
-    horarioAtencion: "",
-    quienesSomos: "",
-    domicilio: "",
-    email: ""
-  });
+
+  const [formData, setFormData] = useState({initialForm});
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -18,7 +21,8 @@ const ModalEmpresa = ({ isOpen, onClose, onSubmit }) => {
     e.preventDefault();
     console.log("Empresa creada:", formData);
     onSubmit(formData);
-    onClose();
+    onClose(initialForm);
+    setFormData(initialForm)
   };
 
   if (!isOpen) return null;
@@ -83,12 +87,12 @@ const ModalEmpresa = ({ isOpen, onClose, onSubmit }) => {
         <div className="flex justify-end space-x-2">
           <button
             type="button"
-            className="bg-gray-400 text-white px-4 py-2 rounded"
+            className="bg-gray-400 text-white px-4 py-2 rounded cursor-pointer"
             onClick={onClose}
           >
             Cancelar
           </button>
-          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded">
+          <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer">
             Guardar
           </button>
         </div>
