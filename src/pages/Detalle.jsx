@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from 'react'
-import HeaderEmpresa from '../components/headerEmpresa'
 import Buscador from './Buscador'
 import { useParams } from 'react-router'
+import HeaderEmpresa from '../components/HeaderEmpresa'
 
 const Detalle = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const { noticiaId } = useParams()
+  const { detalleId } = useParams()
   const [noticia, setNoticia] = useState(null)
 
   useEffect(() => {
-    if (!noticiaId) return // Evita hacer la petición si noticiaId es undefined
-
     const getNoticia = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch(`http://localhost:8080/noticia/get/1`)
+        const response = await fetch(
+          `http://localhost:8080/noticia/get/${detalleId}`
+        )
 
         if (!response.ok) {
           throw new Error(
@@ -35,7 +35,7 @@ const Detalle = () => {
     }
 
     getNoticia()
-  }, [noticiaId])
+  }, [detalleId])
 
   useEffect(() => {
     console.log('Noticia actualizada:', noticia)
@@ -47,7 +47,7 @@ const Detalle = () => {
 
   return (
     <div>
-      {/* <p>{`Mostrando información de la noticia con ID ${noticia.id} de la empresa con ID ${noticia.idEmpresa}`}</p>
+      <p>{`Mostrando información de la noticia con ID ${noticia.id} de la empresa con ID ${noticia.idEmpresa}`}</p>
       <HeaderEmpresa empresa={noticia.idEmpresa} />
       <Buscador />
       <div className="w-full flex justify-center mt-15">
@@ -71,7 +71,7 @@ const Detalle = () => {
             <p>{noticia.contenidoHTML}</p>
           </div>
         </div>
-      </div> */}
+      </div>
     </div>
   )
 }

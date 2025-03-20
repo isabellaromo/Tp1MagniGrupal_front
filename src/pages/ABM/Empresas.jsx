@@ -1,42 +1,37 @@
-import React, { useState } from "react";
-import ModalEmpresa from "./ModalEmpresa";
+import React, { useEffect, useState } from 'react'
+import ModalEmpresa from './ModalEmpresa'
 
 const Empresas = () => {
-  const empresa_info = [
-    {
-      id: 1,
-      denominacion: "El Sol",
-      telefono: "+54 11 1234-5678",
-      horarioAtencion: "Lun-Vie 8:00-18:00",
-      quienesSomos: "Medio digital con noticias en tiempo real.",
-      latitud: -34.603722,
-      longitud: -58.381592,
-      domicilio: "Av. Siempre Viva 742, Buenos Aires",
-      email: "contacto@noticiashoy.com",
-    },
-    {
-      id: 2,
-      denominacion: "segunda clinica",
-      telefono: "+54 12222222222",
-      horarioAtencion: "Lun-Vie 9:00-9:00",
-      quienesSomos: "Medio digital con noticias en tiempo real.",
-      latitud: -34.603722,
-      longitud: -58.381592,
-      domicilio: "Av. Mendoza",
-      email: "asdasd@noticiashoy.com",
-    },
-  ];
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [empresas, setEmpresas] = useState([])
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  useEffect(() => {
+    const getEmpresaYNoticias = async () => {
+      try {
+        //setIsLoading(true)
+        const response = await fetch(`http://localhost:8080/empresa/getAll`)
+        if (!response.ok) {
+          throw new Error('Error en la respuesta del servidor')
+        }
+        const responseJSON = await response.json()
+        setEmpresas(responseJSON)
+      } catch (error) {
+        console.error(error)
+        //setError(`Error: ${error.message}`)
+      }
+    }
 
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = ({}) => {
-    setModalOpen(false);
-  };
+    getEmpresaYNoticias()
+  }, [])
 
-  const handleFormSubmit = (data) => {
-    console.log("Empresa guardada:", data);
-  };
+  const handleOpenModal = () => setModalOpen(true)
+  const handleCloseModal = () => {
+    setModalOpen(false)
+  }
+
+  const handleFormSubmit = data => {
+    console.log('Empresa guardada:', data)
+  }
 
   return (
     <div className="overflow-x-auto p-4">
@@ -68,7 +63,7 @@ const Empresas = () => {
           </tr>
         </thead>
         <tbody>
-          {empresa_info.map((el, index) => (
+          {empresas.map((el, index) => (
             <tr className="text-center border" key={index}>
               <td className="p-2 border">{el.denominacion}</td>
               <td className="p-2 border">{el.telefono}</td>
@@ -91,7 +86,7 @@ const Empresas = () => {
         </tbody>
       </table>
     </div>
-  );
-};
+  )
+}
 
-export default Empresas;
+export default Empresas
