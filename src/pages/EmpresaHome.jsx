@@ -1,35 +1,35 @@
-import React from "react";
-import { useParams } from "react-router-dom";
-import HeaderEmpresa from "../components/HeaderEmpresa";
-import Buscador from "./Buscador";
-import BannerEmpresa from "../components/BannerEmpresa";
+import React from 'react'
+import { useParams } from 'react-router-dom'
+import Buscador from './Buscador'
+import BannerEmpresa from '../components/BannerEmpresa'
+import HeaderEmpresa from '../components/headerEmpresa'
 const EmpresaHome = () => {
-  const { empresaId } = useParams();
+  const { empresaId } = useParams()
 
   const empresa_info = {
     id: 1,
-    denominacion: "El Sol",
-    telefono: "+54 11 1234-5678",
-    horarioAtencion: "Lunes a Viernes de 8:00 a 18:00 hs",
+    denominacion: 'El Sol',
+    telefono: '+54 11 1234-5678',
+    horarioAtencion: 'Lunes a Viernes de 8:00 a 18:00 hs',
     quienesSomos:
-      "Somos un medio de comunicación digital comprometido con la verdad y la objetividad, brindando noticias en tiempo real sobre política, economía, tecnología y más.",
+      'Somos un medio de comunicación digital comprometido con la verdad y la objetividad, brindando noticias en tiempo real sobre política, economía, tecnología y más.',
     latitud: 40.416775,
     longitud: -3.70379,
-    domicilio: "Av. Siempre Viva 742, Buenos Aires, Argentina",
-    email: "contacto@noticiashoy.com",
-  };
+    domicilio: 'Av. Siempre Viva 742, Buenos Aires, Argentina',
+    email: 'contacto@noticiashoy.com',
+  }
 
   const noticia = {
     id: 1,
-    titulo: "Descubren Ciudad Perdida Bajo el Desierto del Sahara",
+    titulo: 'Descubren Ciudad Perdida Bajo el Desierto del Sahara',
     resumen:
-      "Arqueólogos afirman haber encontrado una metrópolis oculta bajo las arenas del Sahara, repleta de templos y tecnología avanzada que podría cambiar la historia de la humanidad.",
+      'Arqueólogos afirman haber encontrado una metrópolis oculta bajo las arenas del Sahara, repleta de templos y tecnología avanzada que podría cambiar la historia de la humanidad.',
     imagen:
-      "https://resizer.glanacion.com/resizer/v2/el-sahara-se-extiende-a-lo-largo-de-4800-AEPKCH33KZHFZGWCOFTRTHXTEM.jpg?auth=d3cfa3a833cc0fa628c1f499f877071cdc88920d493f02f15a2963fab9c3731f&width=1280&height=854&quality=70&smart=true",
-    contenidoHTML: "?",
-    publicada: "Y",
-    fechaPublicacion: "2024-04-30",
-  };
+      'https://resizer.glanacion.com/resizer/v2/el-sahara-se-extiende-a-lo-largo-de-4800-AEPKCH33KZHFZGWCOFTRTHXTEM.jpg?auth=d3cfa3a833cc0fa628c1f499f877071cdc88920d493f02f15a2963fab9c3731f&width=1280&height=854&quality=70&smart=true',
+    contenidoHTML: '?',
+    publicada: 'Y',
+    fechaPublicacion: '2024-04-30',
+  }
 
   return (
     <div>
@@ -55,7 +55,7 @@ const EmpresaHome = () => {
         ></iframe>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmpresaHome;
+export default EmpresaHome
