@@ -17,9 +17,14 @@ const initialForm = {
 const ModalEmpresaPUT = ({ empresa }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState(initialForm)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
+  const closeModal = () => {
+    setIsOpen(false)
+    setErrorMessage('')
+    window.location.reload()
+  }
 
   //CARGA DE DATOS YA EXISTENTES
   useEffect(() => {
@@ -52,7 +57,7 @@ const ModalEmpresaPUT = ({ empresa }) => {
       ...prevFormData,
       [name]:
         name === 'latitud' || name === 'longitud'
-          ? Number.parseInt(value)
+          ? parseFloat(value) || ''
           : value,
     }))
   }
@@ -81,15 +86,21 @@ const ModalEmpresaPUT = ({ empresa }) => {
       )
 
       if (!response.ok) {
+        //TIPO DE ERROR
+        if (response.status === 409) {
+          setErrorMessage(
+            'Ya existe una empresa con un/os de los campos asiciados'
+          )
+        }
         throw new Error(response.statusText)
       }
+
       alert('Empresa editada correctamente:', formData.denominacion)
     } catch (error) {
-      alert('Error al crear la empresa:', error)
+      setErrorMessage('Error al crear la empresa:', error)
     }
 
     setFormData(initialForm)
-    closeModal()
   }
 
   //BASICAMENTE LO QUE HICE ES QUE EL PROPIO MODAL CONTROLE SI SE APARECE O NO, QUE ES MAS CORRECTO.
@@ -114,6 +125,7 @@ const ModalEmpresaPUT = ({ empresa }) => {
               handleSubmit={handleSubmit}
               formData={formData}
               onClose={closeModal}
+              errorMessage={errorMessage}
             />
           </div>
         </div>

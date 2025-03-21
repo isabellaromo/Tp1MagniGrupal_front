@@ -5,6 +5,7 @@ const FormEmpresa = ({
   handleSubmit,
   formData = {},
   onClose,
+  errorMessage,
 }) => {
   //A FORM DATA LE SETEO UN VALOR POR DEFECTO PARA EL MODAL POST, YA QUE NO TRAEMOS LOS DATOS AHI 🤓
 
@@ -80,6 +81,8 @@ const FormEmpresa = ({
         className="w-full p-2 border rounded"
         required
       />
+      {/* Muestra el mensaje de error si existe */}
+      {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
       <div className="flex justify-end space-x-2">
         <button
           type="button"

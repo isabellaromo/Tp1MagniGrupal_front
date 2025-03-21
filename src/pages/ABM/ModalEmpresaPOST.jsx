@@ -17,19 +17,24 @@ const initialForm = {
 const ModalEmpresaPOST = () => {
   const [isOpen, setIsOpen] = useState(false)
   const [formData, setFormData] = useState(initialForm)
+  const [errorMessage, setErrorMessage] = useState('')
 
   const openModal = () => setIsOpen(true)
-  const closeModal = () => setIsOpen(false)
+  const closeModal = () => {
+    setIsOpen(false)
+    setErrorMessage('')
+    window.location.reload()
+  }
 
   const handleChange = e => {
     const { name, value } = e.target
 
-    //ACA PARSEO PORQUE LA pAPI RECIBE latitud Y longitud COMO NUMBERS 🤫
+    //ACA PARSEO PORQUE LA pAPI RECIBE latitud Y longitud COMO NUMBERS 🤫 //Juan: Son floats chaval
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]:
         name === 'latitud' || name === 'longitud'
-          ? Number.parseInt(value)
+          ? parseFloat(value) || ''
           : value,
     }))
   }
@@ -52,15 +57,20 @@ const ModalEmpresaPOST = () => {
       })
 
       if (!response.ok) {
+        //TIPO DE ERROR
+        if (response.status === 409) {
+          setErrorMessage(
+            'Ya existe una empresa con un/os de los campos asiciados'
+          )
+        }
         throw new Error(response.statusText)
       }
       alert('Empresa creada correctamente:', formData.denominacion)
     } catch (error) {
-      alert('Error al crear la empresa:', error)
+      setErrorMessage('Error al crear la empresa:', error)
     }
 
     setFormData(initialForm)
-    closeModal()
   }
 
   return (
@@ -80,6 +90,7 @@ const ModalEmpresaPOST = () => {
               handleSubmit={handleSubmit}
               formData={formData}
               onClose={closeModal}
+              errorMessage={errorMessage}
             />
           </div>
         </div>
