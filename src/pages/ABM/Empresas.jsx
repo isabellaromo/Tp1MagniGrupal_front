@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import ModalEmpresa from './ModalEmpresa'
 import DeleteButton from '../../components/DeleteButton'
+import ModalEmpresaPOST from './ModalEmpresaPOST'
+import ModalEmpresaPUT from './ModalEmpresaPUT'
 
 const Empresas = () => {
-  const [isModalOpen, setModalOpen] = useState(false)
   const [empresas, setEmpresas] = useState([])
   const [isLoading, setIsLoading] = useState(null)
   const [error, setError] = useState(null)
@@ -28,15 +28,6 @@ const Empresas = () => {
     getEmpresaYNoticias()
   }, [])
 
-  const handleOpenModal = () => setModalOpen(true)
-  const handleCloseModal = () => {
-    setModalOpen(false)
-  }
-
-  const handleFormSubmit = data => {
-    console.log('Empresa guardada:', data)
-  }
-
   if (isLoading) return <p>Cargando...</p>
   if (error) return <p>{error}</p>
 
@@ -44,18 +35,8 @@ const Empresas = () => {
     <div className="overflow-x-auto p-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">LISTADO DE EMPRESAS</h2>
-        <button
-          onClick={handleOpenModal}
-          className="bg-green-800 text-white text-2xl px-5 py-1 rounded-2xl shadow-md cursor-pointer shadow-gray-400 m-5"
-        >
-          Crear Nueva +
-        </button>
+        <ModalEmpresaPOST />
       </div>
-      <ModalEmpresa
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onSubmit={handleFormSubmit}
-      />
       <table className="min-w-full border border-gray-300 bg-white shadow-md rounded-lg">
         <thead>
           <tr className="bg-gray-200 text-gray-700">
@@ -78,7 +59,9 @@ const Empresas = () => {
               <td className="p-2 border">{empresa.quienesSomos}</td>
               <td className="p-2 border">{empresa.domicilio}</td>
               <td className="p-2 border">{empresa.email}</td>
-              <td className="p-2 border">Editar</td>
+              <td className="p-2 border">
+                <ModalEmpresaPUT empresa={empresa} />
+              </td>
               <td className="p-2 border">
                 <DeleteButton idToDelete={empresa.id} type="empresa" />
               </td>

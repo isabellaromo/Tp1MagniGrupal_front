@@ -1,7 +1,7 @@
 import React from 'react'
 
 const DeleteButton = ({ idToDelete, type }) => {
-  const hadleDelete = async () => {
+  const hadleEdit = async () => {
     try {
       const response = await fetch(
         `http://localhost:8080/${type}/delete/${idToDelete}`,
@@ -21,10 +21,10 @@ const DeleteButton = ({ idToDelete, type }) => {
   }
   return (
     <button
-      onClick={hadleDelete}
-      className={`bg-red-500 text-white px-2 py-1 rounded hover:bg-blue-600`}
+      onClick={hadleEdit}
+      className={`bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 shadow-md cursor-pointer shadow-gray-400`}
     >
-      Delete
+      Eliminar
     </button>
   )
 }

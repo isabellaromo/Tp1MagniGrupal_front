@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+//TRATAR DE COMPONETIZAR LOS INPUTS
+
 const ModalNoticia = ({ isOpen, onClose, type }) => {
   const [error, setError] = useState(null)
 
@@ -44,7 +46,7 @@ const ModalNoticia = ({ isOpen, onClose, type }) => {
   if (!isOpen) return null
   if (error) return <p>{error}</p>
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-xl font-bold mb-4">Crear Nueva Noticia</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
