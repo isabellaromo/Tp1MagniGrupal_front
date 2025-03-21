@@ -24,6 +24,7 @@ const ModalEmpresaPOST = () => {
   const handleChange = e => {
     const { name, value } = e.target
 
+    //ACA PARSEO PORQUE LA pAPI RECIBE latitud Y longitud COMO NUMBERS 🤫
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]:
@@ -31,14 +32,13 @@ const ModalEmpresaPOST = () => {
           ? Number.parseInt(value)
           : value,
     }))
-    console.log(formData)
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
 
     //ACA LO QUE HAGO ES AGREGARLE UN +54 AL NUMERO, APARTE DE QUE AHORA SE HACE UN STRING
-    //PORQUE ASÍ LO RECIBE EL ENDPOINT
+    //PORQUE ASÍ LO RECIBE EL ENDPOINT 💆 💅
     console.log(formData)
     const newFormData = { ...formData, telefono: `+54 ${formData.telefono}` }
 

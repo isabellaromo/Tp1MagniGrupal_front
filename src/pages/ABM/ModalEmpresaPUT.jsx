@@ -57,6 +57,8 @@ const ModalEmpresaPUT = ({ empresa }) => {
     }))
   }
 
+  //ESTOS METODOS NO PASA NADA SI ESTAN ACA, PERO TRANQUILAMENTE SE PUEDE CREEAR UN ARCHIVO POR EJ:
+  // EN /SRC/LIB/UTILS/ModalEmpresaMethods.js, EXPORTARLOS Y ESO. Y QUEDARIA MUCHO MAS LIMPIO.
   const handleSubmit = async e => {
     e.preventDefault()
 
@@ -65,7 +67,6 @@ const ModalEmpresaPUT = ({ empresa }) => {
     const newFormData = { ...formData, telefono: `+54 ${formData.telefono}` }
     delete newFormData.listaNoticia
     delete newFormData.id
-    console.log(newFormData)
 
     try {
       const response = await fetch(
@@ -91,6 +92,9 @@ const ModalEmpresaPUT = ({ empresa }) => {
     closeModal()
   }
 
+  //BASICAMENTE LO QUE HICE ES QUE EL PROPIO MODAL CONTROLE SI SE APARECE O NO, QUE ES MAS CORRECTO.
+  //IGUAL LA MEJOR FORMA ES HACER UN PORTAL CON:
+  //  React.createPortal(<MiModal/>, lugarDeRenderizacion). RECOMIENDO AVERIGUAR QUE ONDA
   return (
     <>
       <button

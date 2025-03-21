@@ -6,7 +6,9 @@ const FormEmpresa = ({
   formData = {},
   onClose,
 }) => {
-  //A FORM DATA LE SETEO UN VALOR POR DEFECTO PARA EL MODAL POST, YA QUE NO TRAEMOS LOS DATOS AHI
+  //A FORM DATA LE SETEO UN VALOR POR DEFECTO PARA EL MODAL POST, YA QUE NO TRAEMOS LOS DATOS AHI 🤓
+
+  //POR OTRO LADO ESTARIA INCREIBLE COMPONETIZAR LOS INPUTS, SE RE PRESTAN PARA ESO 🖕 kasjdnkas clave
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <input

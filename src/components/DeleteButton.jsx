@@ -1,6 +1,7 @@
 import React from 'react'
 
 const DeleteButton = ({ idToDelete, type }) => {
+  //FALTARIA QUE SE ACTULIZARA LA PAGINA, O LA LISTA AUN MEJOR, CUANDO SE ELIMINA 🥳
   const hadleEdit = async () => {
     try {
       const response = await fetch(

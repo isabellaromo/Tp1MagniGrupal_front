@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 
-//TRATAR DE COMPONETIZAR LOS INPUTS
+//LO COSA SERIA TRATAR DE REUTILIZAR COMO HICE CON EL FORM EMPRESA 🏦
+//TRATAR DE COMPONETIZAR LOS INPUTS 🧘‍♂️
 
 const ModalNoticia = ({ isOpen, onClose, type }) => {
   const [error, setError] = useState(null)

@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import ModalEmpresaPUT from '../pages/ABM/ModalEmpresaPUT'
 
-const EditButton = ({ idToEdit, type }) => {
+const EditButton = () => {
   const [isEdit, setIsEdit] = useState(false)
   const hadnleEdit = async () => {
     setIsEdit(true)
   }
 
+  //NADA QUE EXPLICAR, UN COMPONENTE CHIQUITO, OSEA PROMEDIO, TIRANDO A GRANDE 👶
   return (
     <button
       onClick={hadnleEdit}

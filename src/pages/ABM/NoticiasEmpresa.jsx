@@ -3,6 +3,9 @@ import { useLocation } from 'react-router'
 import ModalNoticia from './ModalNoticia'
 import DeleteButton from '../../components/DeleteButton'
 
+//MAS DE LO MISMO. ES PRACTIMENTE LO MISMO. SE SE PUEDE USAR ALGO QUE YA ESTE EN EMPRESAS Y ADAPTALO
+//A NOTICIAS, JAMON DEL DIOME 😋 . SINO TRATAR DE HACER REUTILIZABLE AL MENOS EN NOTICIAS.
+//COMO DIJE ES MUY PARECIDO ASIQUE PROBABLEMENTE SE PUEDE HACER ALGO COMO LO QUE HICE O MEJOR 😠 😝
 const NoticiasEmpresa = () => {
   const [noticias, setNoticias] = useState([])
   const location = useLocation()
