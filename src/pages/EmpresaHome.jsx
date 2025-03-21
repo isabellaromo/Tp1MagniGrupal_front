@@ -49,7 +49,7 @@ const EmpresaHome = () => {
   return (
     <div>
       <p>Mostrando información de la empresa con ID: {empresaId}</p>
-      <HeaderEmpresa empresa={empresaYNoticias} />
+      <HeaderEmpresa id={empresaId} />
       <Buscador />
       <BannerEmpresa
         noticias={empresaYNoticias.listaNoticia}

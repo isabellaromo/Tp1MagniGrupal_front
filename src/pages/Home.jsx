@@ -10,7 +10,9 @@ const Home = () => {
     const getData = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch('http://localhost:8080/empresa/getAll')
+        const response = await fetch(
+          'http://localhost:8080/empresa/basic/getAll'
+        )
         if (!response.ok) {
           throw new Error('Error en la respuesta del servidor')
         }
@@ -42,7 +44,7 @@ const Home = () => {
           <tr key={index}>
             <td>{empresa.denominacion}</td>
             <td>
-              <Link className="underline" to={`/${empresa.id}/empresaHome`}>
+              <Link className="underline" to={`/empresa/${empresa.id}`}>
                 URL PÁGINA HOME
               </Link>
             </td>

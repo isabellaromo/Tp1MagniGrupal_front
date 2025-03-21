@@ -53,7 +53,9 @@ const BannerEmpresa = ({ noticias = [], empresaId }) => {
           </div>
           <button className="md:w-[40%] cursor-pointer flex lg:justify-center text-white text-2xl font-bold h-max">
             <Link
-              to={`/${empresaId}/detalle/${noticias[currentIndex]?.id || '0'}`}
+              to={`/empresa/${empresaId}/noticia/${
+                noticias[currentIndex]?.id || '0'
+              }`}
               className="w-max hover:text-amber-200 border-y-[0.1px] p-2"
             >
               Ver Noticia →
