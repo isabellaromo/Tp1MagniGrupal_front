@@ -1,53 +1,33 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router";
-import ModalNoticia from "./ModalNoticia";
+import React, { useEffect, useState } from 'react'
+import { useLocation } from 'react-router'
+import ModalNoticia from './ModalNoticia'
+import DeleteButton from '../../components/DeleteButton'
 
 const NoticiasEmpresa = () => {
-  const location = useLocation();
-  const empresa = location.state;
+  const [noticias, setNoticias] = useState([])
+  const location = useLocation()
+  const empresa = location.state
 
-  const noticias = [
-    {
-      id: 1,
-      titulo: "Descubren Ciudad Perdida Bajo el Desierto del Sahara",
-      resumen:
-        "Arqueólogos afirman haber encontrado una metrópolis oculta bajo las arenas del Sahara, repleta de templos y tecnología avanzada que podría cambiar la historia de la humanidad.",
-      imagen:
-        "https://resizer.glanacion.com/resizer/v2/el-sahara-se-extiende-a-lo-largo-de-4800-AEPKCH33KZHFZGWCOFTRTHXTEM.jpg?auth=d3cfa3a833cc0fa628c1f499f877071cdc88920d493f02f15a2963fab9c3731f&width=1280&height=854&quality=70&smart=true",
-      contenidoHTML: "?",
-      publicada: "Y",
-      fechaPublicacion: "2024-04-30",
-    },
-    {
-      id: 2,
-      titulo: "Científicos crean una fruta que sabe a pizza",
-      resumen:
-        "Un equipo de biólogos ha desarrollado una fruta híbrida que tiene el sabor exacto de una pizza margarita, revolucionando la industria alimentaria y sorprendiendo a expertos en gastronomía.",
-      imagen: " https://imag.bonviveur.com/pizza-margarita.jpg",
-      contenidoHTML: "?",
-      publicada: "N",
-      fechaPublicacion: "2025-01-29",
-    },
-    {
-      id: 8,
-      titulo:
-        "Un equipo de arqueólogos descubre una antigua nave vikinga en el fondo del mar",
-      resumen:
-        "Arqueólogos marinos han descubierto una antigua nave vikinga en las profundidades del océano Atlántico, con artefactos que datan de más de mil años.",
-      imagen:
-        "https://www.cronista.com/files/image/893/893811/669920ea64ca7.jpg",
-      contenidoHTML: null, // No se especificó contenido
-      publicada: "Y",
-      fechaPublicacion: "2025-01-11",
-      idEmpresa: null, // No se especificó idEmpresa
-    },
-  ];
+  useEffect(() => {
+    const fetchNoticias = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/noticia/getAll')
+        if (!response.ok) {
+          throw new Error(response.status, ' Error al obtener las noticias')
+        }
+        const data = await response.json()
+        setNoticias(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+    fetchNoticias()
+  }, [])
 
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isModalOpen, setModalOpen] = useState(false)
 
-  const handleOpenModal = () => setModalOpen(true);
-  const handleCloseModal = () => setModalOpen(false);
-  const handleFormSubmit = (data) => console.log("Noticia guardada:", data);
+  const handleOpenModal = () => setModalOpen(true)
+  const handleCloseModal = () => setModalOpen(false)
 
   return (
     <div className="p-4">
@@ -61,8 +41,8 @@ const NoticiasEmpresa = () => {
         </button>
         <ModalNoticia
           isOpen={isModalOpen}
+          type="noticia"
           onClose={handleCloseModal}
-          onSubmit={handleFormSubmit}
         />
       </div>
       <div className="overflow-auto max-w-full">
@@ -81,36 +61,36 @@ const NoticiasEmpresa = () => {
             </tr>
           </thead>
           <tbody>
-            {noticias.map((el, index) => (
+            {noticias.map((noticia, index) => (
               <tr className="text-center border" key={index}>
-                <td className="p-2 border w-1/9">{el.id}</td>
+                <td className="p-2 border w-1/9">{noticia.id}</td>
                 <td className="p-2 border w-1/9 max-h-[100px] overflow-auto">
-                  {el.titulo}
+                  {noticia.tituloNoticia}
                 </td>
                 <td className="p-2 border w-1/9 max-h-[100px] overflow-auto">
-                  {el.resumen}
+                  {noticia.resumenNoticia}
                 </td>
                 <td className="p-2 border w-1/9 max-h-[100px] overflow-auto">
                   <img
-                    src={el.imagen}
+                    src={noticia.imagenNoticia}
                     alt="Noticia"
                     className="w-full h-auto max-h-[80px] object-cover"
                   />
                 </td>
                 <td className="p-2 border w-1/9 max-h-[100px] overflow-auto">
-                  {el.contenidoHTML}
+                  {noticia.contenidoHtml}
                 </td>
-                <td className="p-2 border w-1/9">{el.publicada}</td>
-                <td className="p-2 border w-1/9">{el.fechaPublicacion}</td>
+                <td className="p-2 border w-1/9">
+                  {noticia.publicada ? 'Y' : 'N'}
+                </td>
+                <td className="p-2 border w-1/9">{noticia.fechaPublicacion}</td>
                 <td className="p-2 border w-1/9">
                   <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
                     Editar
                   </button>
                 </td>
                 <td className="p-2 border w-1/9">
-                  <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                    Remover
-                  </button>
+                  <DeleteButton idToDelete={noticia.id} type="noticia" />
                 </td>
               </tr>
             ))}
@@ -118,7 +98,7 @@ const NoticiasEmpresa = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NoticiasEmpresa;
+export default NoticiasEmpresa

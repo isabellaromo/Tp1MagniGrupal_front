@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import ModalEmpresa from './ModalEmpresa'
+import DeleteButton from '../../components/DeleteButton'
 
 const Empresas = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const [empresas, setEmpresas] = useState([])
+  const [isLoading, setIsLoading] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const getEmpresaYNoticias = async () => {
       try {
-        //setIsLoading(true)
+        setIsLoading(true)
         const response = await fetch(`http://localhost:8080/empresa/getAll`)
         if (!response.ok) {
           throw new Error('Error en la respuesta del servidor')
@@ -16,8 +19,9 @@ const Empresas = () => {
         const responseJSON = await response.json()
         setEmpresas(responseJSON)
       } catch (error) {
-        console.error(error)
-        //setError(`Error: ${error.message}`)
+        setError(`Error: ${error.message}`)
+      } finally {
+        setIsLoading(false)
       }
     }
 
@@ -32,6 +36,9 @@ const Empresas = () => {
   const handleFormSubmit = data => {
     console.log('Empresa guardada:', data)
   }
+
+  if (isLoading) return <p>Cargando...</p>
+  if (error) return <p>{error}</p>
 
   return (
     <div className="overflow-x-auto p-4">
@@ -63,23 +70,17 @@ const Empresas = () => {
           </tr>
         </thead>
         <tbody>
-          {empresas.map((el, index) => (
+          {empresas.map((empresa, index) => (
             <tr className="text-center border" key={index}>
-              <td className="p-2 border">{el.denominacion}</td>
-              <td className="p-2 border">{el.telefono}</td>
-              <td className="p-2 border">{el.horarioAtencion}</td>
-              <td className="p-2 border">{el.quienesSomos}</td>
-              <td className="p-2 border">{el.domicilio}</td>
-              <td className="p-2 border">{el.email}</td>
+              <td className="p-2 border">{empresa.denominacion}</td>
+              <td className="p-2 border">{empresa.telefono}</td>
+              <td className="p-2 border">{empresa.horarioAtencion}</td>
+              <td className="p-2 border">{empresa.quienesSomos}</td>
+              <td className="p-2 border">{empresa.domicilio}</td>
+              <td className="p-2 border">{empresa.email}</td>
+              <td className="p-2 border">Editar</td>
               <td className="p-2 border">
-                <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-                  Editar
-                </button>
-              </td>
-              <td className="p-2 border">
-                <button className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
-                  Remover
-                </button>
+                <DeleteButton idToDelete={empresa.id} type="empresa" />
               </td>
             </tr>
           ))}

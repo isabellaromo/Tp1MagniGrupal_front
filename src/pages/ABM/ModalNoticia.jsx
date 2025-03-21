@@ -1,64 +1,48 @@
-import React, { useState } from "react";
+import React, { useState } from 'react'
 
-const ModalNoticia = ({ isOpen, onClose, onSubmit }) => {
-  const noticias = [
-    {
-      id: 1,
-      titulo: "Descubren Ciudad Perdida Bajo el Desierto del Sahara",
-      resumen:
-        "Arqueólogos afirman haber encontrado una metrópolis oculta bajo las arenas del Sahara, repleta de templos y tecnología avanzada que podría cambiar la historia de la humanidad.",
-      imagen:
-        "https://resizer.glanacion.com/resizer/v2/el-sahara-se-extiende-a-lo-largo-de-4800-AEPKCH33KZHFZGWCOFTRTHXTEM.jpg?auth=d3cfa3a833cc0fa628c1f499f877071cdc88920d493f02f15a2963fab9c3731f&width=1280&height=854&quality=70&smart=true",
-      contenidoHTML: "?",
-      publicada: "Y",
-      fechaPublicacion: "2024-04-30",
-    },
-    {
-      id: 2,
-      titulo: "Científicos crean una fruta que sabe a pizza",
-      resumen:
-        "Un equipo de biólogos ha desarrollado una fruta híbrida que tiene el sabor exacto de una pizza margarita, revolucionando la industria alimentaria y sorprendiendo a expertos en gastronomía.",
-      imagen: " https://imag.bonviveur.com/pizza-margarita.jpg",
-      contenidoHTML: "?",
-      publicada: "N",
-      fechaPublicacion: "2025-01-29",
-    },
-    {
-      id: 8,
-      titulo:
-        "Un equipo de arqueólogos descubre una antigua nave vikinga en el fondo del mar",
-      resumen:
-        "Arqueólogos marinos han descubierto una antigua nave vikinga en las profundidades del océano Atlántico, con artefactos que datan de más de mil años.",
-      imagen:
-        "https://www.cronista.com/files/image/893/893811/669920ea64ca7.jpg",
-      contenidoHTML: null, // No se especificó contenido
-      publicada: "Y",
-      fechaPublicacion: "2025-01-11",
-    },
-  ];
+const ModalNoticia = ({ isOpen, onClose, type }) => {
+  const [error, setError] = useState(null)
 
   const [formData, setFormData] = useState({
-    id: "",
-    titulo: "",
-    resumen: "",
-    imagen: "",
-    contenidoHTML: "",
-    publicada: "",
-    fechaPublicacion: "",
-  });
+    titulo: '',
+    resumen: '',
+    imagen: '',
+    contenidoHTML: '',
+    publicada: '',
+    fechaPublicacion: '',
+  })
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const handleChange = e => {
+    const { name, type, checked, value } = e.target
+    const newValue = type === 'checkbox' ? checked : value
+    setFormData({ ...formData, [name]: newValue })
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Noticia creada:", formData);
-    onSubmit(formData);
-    onClose();
-  };
+  const handleSubmit = async e => {
+    e.preventDefault()
+    console.log(formData)
+    try {
+      const response = await fetch(`http://localhost:8080/${type}/post`, {
+        method: 'POST',
+        body: { formData },
+        'Content-Type': 'application/json',
+      })
 
-  if (!isOpen) return null;
+      if (!response.ok) {
+        throw new Error(
+          `Error: ${response.status}. Error al postear la noticia`
+        )
+      }
+      const responseJSON = response.json()
+      alert('Noticia creada:', responseJSON)
+    } catch (error) {
+      setError(error)
+    }
+    onClose()
+  }
+
+  if (!isOpen) return null
+  if (error) return <p>{error}</p>
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -66,17 +50,8 @@ const ModalNoticia = ({ isOpen, onClose, onSubmit }) => {
         <form onSubmit={handleSubmit} className="space-y-3">
           <input
             type="text"
-            name="id"
-            placeholder="id"
-            value={formData.id}
-            onChange={handleChange}
-            className="w-full p-2 border rounded"
-            required
-          />
-          <input
-            type="text"
             name="titulo"
-            placeholder="titulo"
+            placeholder="Titulo de la Noticia"
             value={formData.titulo}
             onChange={handleChange}
             className="w-full p-2 border rounded"
@@ -85,40 +60,44 @@ const ModalNoticia = ({ isOpen, onClose, onSubmit }) => {
           <input
             type="text"
             name="resumen"
-            placeholder="resumen"
+            placeholder="Resumen de la Noticia"
             value={formData.resumen}
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
           />
           <input
-            type="image"
+            type="text"
             name="imagen"
-            placeholder="imagen"
+            placeholder="URL de Imagen de la Noticia"
             value={formData.imagen}
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
           />
           <textarea
-          type='text'
+            type="text"
             name="contenidoHTML"
-            placeholder="contenidoHTML"
+            placeholder="Contenido HTML de la Noticia"
             value={formData.contenidoHTML}
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
           />
+          <label for="inputRadio">¿Se encuentra publicada la noticia?</label>
+          {formData.publicada && (
+            <p>Valor actual:{formData.publicada ? 'Activo' : 'Desactivo'}</p>
+          )}
           <input
-            type="boolean"
+            id="inputRadio"
+            type="checkbox"
             name="publicada"
-            placeholder="publicada"
             value={formData.publicada}
             onChange={handleChange}
             className="w-full p-2 border rounded"
             required
           />
-            <input
+          <input
             type="date"
             name="fechaPublicacion"
             placeholder="fechaPublicacion"
@@ -145,7 +124,7 @@ const ModalNoticia = ({ isOpen, onClose, onSubmit }) => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ModalNoticia;
+export default ModalNoticia
