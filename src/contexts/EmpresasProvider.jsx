@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 export const EmpresasContext = createContext()
 
@@ -28,8 +28,10 @@ export const EmpresasProvider = ({ children }) => {
   }, [])
 
   return (
-    <UserContext.Provider value={{ empresas, setEmpresas }}>
+    <EmpresasContext.Provider value={{ empresas, setEmpresas }}>
       {children}
-    </UserContext.Provider>
+    </EmpresasContext.Provider>
   )
 }
+
+export default EmpresasProvider
