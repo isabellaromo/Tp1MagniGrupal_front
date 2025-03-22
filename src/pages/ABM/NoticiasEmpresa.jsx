@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
-import ModalNoticia from './ModalNoticia'
 import DeleteButton from '../../components/DeleteButton'
+import ModalNoticiaPOST from './ModalNoticiaPOST'
 
-//MAS DE LO MISMO. ES PRACTIMENTE LO MISMO. SE SE PUEDE USAR ALGO QUE YA ESTE EN EMPRESAS Y ADAPTALO
-//A NOTICIAS, JAMON DEL DIOME 😋 . SINO TRATAR DE HACER REUTILIZABLE AL MENOS EN NOTICIAS.
-//COMO DIJE ES MUY PARECIDO ASIQUE PROBABLEMENTE SE PUEDE HACER ALGO COMO LO QUE HICE O MEJOR 😠 😝
 const NoticiasEmpresa = () => {
   const [noticias, setNoticias] = useState([])
   const location = useLocation()
@@ -27,26 +24,11 @@ const NoticiasEmpresa = () => {
     fetchNoticias()
   }, [])
 
-  const [isModalOpen, setModalOpen] = useState(false)
-
-  const handleOpenModal = () => setModalOpen(true)
-  const handleCloseModal = () => setModalOpen(false)
-
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
         <h2 className="text-2xl font-bold">Noticias empresa {empresa}</h2>
-        <button
-          onClick={handleOpenModal}
-          className="bg-green-800 text-white text-2xl px-5 py-1 rounded-2xl shadow-md cursor-pointer shadow-gray-400 m-5"
-        >
-          Crear Nueva +
-        </button>
-        <ModalNoticia
-          isOpen={isModalOpen}
-          type="noticia"
-          onClose={handleCloseModal}
-        />
+        <ModalNoticiaPOST />
       </div>
       <div className="overflow-auto max-w-full">
         <table className="min-w-full table-fixed border border-gray-300 bg-white shadow-md rounded-lg">

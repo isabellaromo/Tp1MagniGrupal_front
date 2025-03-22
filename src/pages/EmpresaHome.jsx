@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import Buscador from './Buscador'
 import BannerEmpresa from '../components/BannerEmpresa'
 import HeaderEmpresa from '../components/headerEmpresa'
+import Footer from '../components/Footer'
 
 const initialEmpresas = {
   id: null,
@@ -71,6 +72,7 @@ const EmpresaHome = () => {
           loading="lazy"
         ></iframe>
       </div>
+      <Footer nombreEmpresa={empresaYNoticias.denominacion} />
     </div>
   )
 }

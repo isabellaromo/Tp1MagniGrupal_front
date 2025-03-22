@@ -1,4 +1,7 @@
 import React from 'react'
+import Input from './Input'
+import CancelarButton from './CancelarButton'
+import GuardarButton from './GuardarButton'
 
 const FormEmpresa = ({
   handleChange,
@@ -8,36 +11,28 @@ const FormEmpresa = ({
   errorMessage,
 }) => {
   //A FORM DATA LE SETEO UN VALOR POR DEFECTO PARA EL MODAL POST, YA QUE NO TRAEMOS LOS DATOS AHI 🤓
-
-  //POR OTRO LADO ESTARIA INCREIBLE COMPONETIZAR LOS INPUTS, SE RE PRESTAN PARA ESO 🖕 kasjdnkas clave
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      <input
+      <Input
         type="text"
         name="denominacion"
         placeholder="Nombre"
         value={formData?.denominacion}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
-        required
       />
-      <input
+      <Input
         type="number"
         name="telefono"
         placeholder="Teléfono"
         value={formData?.telefono}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
-        required
       />
-      <input
+      <Input
         type="text"
         name="horarioAtencion"
         placeholder="Horario"
         value={formData?.horarioAtencion}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
-        required
       />
       <textarea
         name="quienesSomos"
@@ -47,56 +42,39 @@ const FormEmpresa = ({
         className="w-full p-2 border rounded"
         required
       />
-      <input
+      <Input
         type="number"
         name="latitud"
-        placeholder="Latitud"
+        placeholder="Latitud (Ej: 11,11111)"
         value={formData.latitud}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
       />
-      <input
+      <Input
         type="number"
         name="longitud"
-        placeholder="Longitud"
+        placeholder="Longitud (Ej: 11,11111)"
         value={formData?.longitud}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
       />
-      <input
+      <Input
         type="text"
         name="domicilio"
         placeholder="Domicilio"
         value={formData?.domicilio}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
-        required
       />
-      <input
+      <Input
         type="email"
         name="email"
         placeholder="Email"
         value={formData?.email}
         onChange={handleChange}
-        className="w-full p-2 border rounded"
-        required
       />
       {/* Muestra el mensaje de error si existe */}
       {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}
       <div className="flex justify-end space-x-2">
-        <button
-          type="button"
-          className="bg-gray-400 text-white px-4 py-2 rounded cursor-pointer"
-          onClick={onClose}
-        >
-          Cancelar
-        </button>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded cursor-pointer"
-        >
-          Guardar
-        </button>
+        <CancelarButton onClick={onClose} />
+        <GuardarButton />
       </div>
     </form>
   )

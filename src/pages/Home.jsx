@@ -4,54 +4,56 @@ import { Link } from 'react-router-dom'
 const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(null)
-  const [empresas, setEmpresas] = useState([])
+  // const [empresas, setEmpresas] = useState([])
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch(
-          'http://localhost:8080/empresa/basic/getAll'
-        )
-        if (!response.ok) {
-          throw new Error('Error en la respuesta del servidor')
-        }
-        const responseJSON = await response.json()
-        setEmpresas(responseJSON)
-      } catch (error) {
-        setError(`Error: ${error.message}`)
-      } finally {
-        setIsLoading(false)
-      }
-    }
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     try {
+  //       setIsLoading(true)
+  //       const response = await fetch(
+  //         'http://localhost:8080/empresa/basic/getAll'
+  //       )
+  //       if (!response.ok) {
+  //         throw new Error('Error en la respuesta del servidor')
+  //       }
+  //       const responseJSON = await response.json()
+  //       setEmpresas(responseJSON)
+  //     } catch (error) {
+  //       setError(`Error: ${error.message}`)
+  //     } finally {
+  //       setIsLoading(false)
+  //     }
+  //   }
 
-    getData()
-  }, [])
+  //   getData()
+  // }, [])
 
   if (error) return <p>{error}</p>
   if (isLoading) return <p>Cargando...</p>
 
   return (
-    <table width="50%" align="center">
-      <thead>
-        <tr>
-          <th width="50%">EMPRESA</th>
-          <th>VER PÁGINA</th>
-        </tr>
-      </thead>
-      <tbody>
-        {empresas.map((empresa, index) => (
-          <tr key={index}>
-            <td>{empresa.denominacion}</td>
-            <td>
-              <Link className="underline" to={`/empresa/${empresa.id}`}>
-                URL PÁGINA HOME
-              </Link>
-            </td>
+    <section className="w-full flex justify-center">
+      <table className="w-[30%] mt-10 text-center">
+        <thead>
+          <tr>
+            <th width="50%">EMPRESA</th>
+            <th>VER PÁGINA</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {empresas.map((empresa, index) => (
+            <tr key={index}>
+              <td>{empresa.denominacion}</td>
+              <td>
+                <Link className="underline" to={`/empresa/${empresa.id}`}>
+                  URL PÁGINA HOME
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </section>
   )
 }
 

@@ -3,6 +3,7 @@ import DeleteButton from '../../components/DeleteButton'
 import ModalEmpresaPOST from './ModalEmpresaPOST'
 import ModalEmpresaPUT from './ModalEmpresaPUT'
 
+//Esta es la TABLA EMPRESAS
 const Empresas = () => {
   const [empresas, setEmpresas] = useState([])
   const [isLoading, setIsLoading] = useState(null)

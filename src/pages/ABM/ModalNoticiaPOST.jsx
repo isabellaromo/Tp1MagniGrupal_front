@@ -1,22 +1,20 @@
 import React, { useState } from 'react'
-import FormEmpresa from '../../components/FormEmpresa'
+import FormNoticia from '../../components/FormNoticia'
 import CrearNuevaButton from '../../components/CrearNuevaButton'
 
 const initialForm = {
-  denominacion: '',
-  telefono: '',
-  horarioAtencion: '',
-  quienesSomos: '',
-  latitud: '',
-  longitud: '',
-  domicilio: '',
-  email: '',
+  titulo: '',
+  resumen: '',
+  imagen: '',
+  contenidoHTML: '',
+  publicada: '',
+  fechaPublicacion: '',
 }
 
-const ModalEmpresaPOST = () => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [formData, setFormData] = useState(initialForm)
+const ModalNoticiaPOST = () => {
   const [errorMessage, setErrorMessage] = useState('')
+  const [formData, setFormData] = useState(initialForm)
+  const [isOpen, setIsOpen] = useState(false)
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => {
@@ -26,28 +24,16 @@ const ModalEmpresaPOST = () => {
   }
 
   const handleChange = e => {
-    const { name, value } = e.target
-
-    //ACA PARSEO PORQUE LA API RECIBE latitud Y longitud COMO NUMBERS 🤫 //Juan: Son floats chaval
-    setFormData(prevFormData => ({
-      ...prevFormData,
-      [name]:
-        name === 'latitud' || name === 'longitud'
-          ? parseFloat(value) || ''
-          : value,
-    }))
+    const { name, type, checked, value } = e.target
+    const newValue = type === 'checkbox' ? checked : value
+    setFormData({ ...formData, [name]: newValue })
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
-
-    //ACA LO QUE HAGO ES AGREGARLE UN +54 AL NUMERO, APARTE DE QUE AHORA SE HACE UN STRING
-    //PORQUE ASÍ LO RECIBE EL ENDPOINT 💆 💅
     console.log(formData)
-    const newFormData = { ...formData, telefono: `+54 ${formData.telefono}` }
-
     try {
-      const response = await fetch(`http://localhost:8080/empresa/post`, {
+      const response = await fetch(`http://localhost:8080/noticia/post`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -56,7 +42,6 @@ const ModalEmpresaPOST = () => {
       })
 
       if (!response.ok) {
-        //TIPO DE ERROR
         if (response.status === 409) {
           throw new Error(
             'Ya existe una empresa con un/os de los campos asiciados'
@@ -68,7 +53,6 @@ const ModalEmpresaPOST = () => {
     } catch (error) {
       setErrorMessage(`Error al crear la empresa: ${error.message}`)
     }
-
     setFormData(initialForm)
   }
 
@@ -78,8 +62,8 @@ const ModalEmpresaPOST = () => {
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h2 className="text-xl font-bold mb-4">Crear Nueva Empresa</h2>
-            <FormEmpresa
+            <h2 className="text-xl font-bold mb-4">Crear Nueva Noticia</h2>
+            <FormNoticia
               handleChange={handleChange}
               handleSubmit={handleSubmit}
               formData={formData}
@@ -93,4 +77,4 @@ const ModalEmpresaPOST = () => {
   )
 }
 
-export default ModalEmpresaPOST
+export default ModalNoticiaPOST

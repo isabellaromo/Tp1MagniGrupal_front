@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
+//Esta es la lista de Empresas para la tabla de noticias
 const Noticias = () => {
   const [empresas, setEmpresas] = useState([])
   const [isLoading, setIsLoading] = useState(null)
@@ -33,13 +34,13 @@ const Noticias = () => {
   return (
     <div className="flex flex-col gap-10 items-center justify-center mt-10">
       <h2 className="text-3xl font-bold">ELIGE UNA EMPRESA</h2>
-      {empresas.map((el, index) => (
+      {empresas.map((empresa, index) => (
         <Link
-          to={`${el.id}/`}
-          state={el.denominacion}
+          to={`${empresa.id}/`}
+          state={empresa.denominacion}
           className="text-black bg-green-900 w-[30%] self-center p-5 rounded-3xl cursor-pointer text-center text-2xl "
         >
-          <button key={index}>{el.denominacion}</button>
+          <button key={index}>{empresa.denominacion}</button>
         </Link>
       ))}
     </div>
