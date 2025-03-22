@@ -1,8 +1,13 @@
 import React from 'react'
 
 const DeleteButton = ({ idToDelete, type }) => {
-  //FALTARIA QUE SE ACTULIZARA LA PAGINA, O LA LISTA AUN MEJOR, CUANDO SE ELIMINA 🥳
-  const hadleEdit = async () => {
+  const handleDelete = async () => {
+    const isConfirmed = window.confirm(
+      `¿Estás seguro de que deseas eliminar este ${type}? Esta acción no se puede deshacer.`
+    )
+
+    if (!isConfirmed) return
+
     try {
       const response = await fetch(
         `http://localhost:8080/${type}/delete/${idToDelete}`,
@@ -10,20 +15,27 @@ const DeleteButton = ({ idToDelete, type }) => {
           method: 'DELETE',
         }
       )
+
       if (!response.ok) {
-        throw new Error(
-          `Error al eliminar ${type} con id ${idToDelete}. No se encontro la empresa o contiene empresas asociadas.`
-        )
+        if (response.status === 404) {
+          throw new Error(
+            `${type} con id ${idToDelete} no encontrado o contiene empresas asociadas.`
+          )
+        }
+        throw new Error(`Error al eliminar ${type} con id ${idToDelete}.`)
       }
-      console.log(`Se eliminó correctamente ${type} con id ${idToDelete}`)
+
+      alert(`Se eliminó correctamente ${type} con id ${idToDelete}`)
+      window.location.reload()
     } catch (error) {
-      console.error(error)
+      alert(error.message)
     }
   }
+
   return (
     <button
-      onClick={hadleEdit}
-      className={`bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 shadow-md cursor-pointer shadow-gray-400`}
+      onClick={handleDelete}
+      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 shadow-md cursor-pointer shadow-gray-400"
     >
       Eliminar
     </button>

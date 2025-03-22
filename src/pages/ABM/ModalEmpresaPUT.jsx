@@ -88,7 +88,7 @@ const ModalEmpresaPUT = ({ empresa }) => {
       if (!response.ok) {
         //TIPO DE ERROR
         if (response.status === 409) {
-          setErrorMessage(
+          throw new Error(
             'Ya existe una empresa con un/os de los campos asiciados'
           )
         }
@@ -97,7 +97,7 @@ const ModalEmpresaPUT = ({ empresa }) => {
 
       alert('Empresa editada correctamente:', formData.denominacion)
     } catch (error) {
-      setErrorMessage('Error al crear la empresa:', error)
+      setErrorMessage(`Error al crear la empresa: ${error.message}`)
     }
 
     setFormData(initialForm)

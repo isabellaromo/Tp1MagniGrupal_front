@@ -1,14 +1,34 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router'
 
 const Noticias = () => {
-  const empresas = [
-    { Denominación: 'El Sol', id: 12312 },
-    { Denominación: 'Diario Uno', id: 12314 },
-    { Denominación: 'La Nacion', id: 423423 },
-    { Denominación: 'MDZ', id: 3334 },
-    { Denominación: 'Clarin', id: 23235 },
-  ]
+  const [empresas, setEmpresas] = useState([])
+  const [isLoading, setIsLoading] = useState(null)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const basicAllEmpresa = async () => {
+      try {
+        setIsLoading(true)
+        const response = await fetch(
+          'http://localhost:8080/empresa/basic/getAll'
+        )
+        if (!response.ok) {
+          throw Error('Error al obtener las empresas')
+        }
+        const resoponseJSON = await response.json()
+        setEmpresas(resoponseJSON)
+      } catch (error) {
+        setError(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    basicAllEmpresa()
+  }, [])
+
+  if (isLoading) return <p>Cargando...</p>
+  if (error) return <p>{error}</p>
 
   return (
     <div className="flex flex-col gap-10 items-center justify-center mt-10">
@@ -16,10 +36,10 @@ const Noticias = () => {
       {empresas.map((el, index) => (
         <Link
           to={`${el.id}/`}
-          state={el.Denominación}
+          state={el.denominacion}
           className="text-black bg-green-900 w-[30%] self-center p-5 rounded-3xl cursor-pointer text-center text-2xl "
         >
-          <button key={index}>{el.Denominación}</button>
+          <button key={index}>{el.denominacion}</button>
         </Link>
       ))}
     </div>
