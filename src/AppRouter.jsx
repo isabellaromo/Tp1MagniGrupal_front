@@ -7,12 +7,16 @@ import ABM from './pages/ABM/ABM'
 import Empresas from './pages/ABM/Empresas'
 import Noticias from './pages/ABM/Noticias'
 import NoticiasEmpresa from './pages/ABM/NoticiasEmpresa'
+import ContextWrapper from './contexts/ContextWrapper'
 
 function AppRouter() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/*Rutas que necesitan el contexto de empresas */}
+        <Route path="/*" element={<ContextWrapper />} />
+
+        {/*Rutas que no necesitan el contexto*/}
         <Route path="empresa/:empresaId" element={<EmpresaHome />} />
         <Route path="empresa/:empresaId/buscador" element={<Buscador />} />
         <Route
@@ -21,9 +25,6 @@ function AppRouter() {
         />
         <Route path="abm" element={<ABM />} />
         <Route path="abm/empresas" element={<Empresas />} />
-        <Route path="abm/noticias" element={<Noticias />} />
-
-        <Route path="abm/noticias/:empresaId" element={<NoticiasEmpresa />} />
       </Routes>
     </Router>
   )

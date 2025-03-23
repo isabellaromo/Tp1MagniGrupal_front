@@ -3,6 +3,7 @@ import { useLocation } from 'react-router'
 import DeleteButton from '../../components/DeleteButton'
 import ModalNoticiaPOST from './ModalNoticiaPOST'
 
+//Esta es la tabla con todas las noticias
 const NoticiasEmpresa = () => {
   const [noticias, setNoticias] = useState([])
   const location = useLocation()

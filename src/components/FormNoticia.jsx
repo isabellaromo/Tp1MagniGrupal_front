@@ -9,6 +9,7 @@ const FormNoticia = ({
   formData = {},
   onClose,
   errorMessage,
+  empresas,
 }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
@@ -60,8 +61,20 @@ const FormNoticia = ({
         value={formData.fechaPublicacion}
         onChange={handleChange}
       />
-      <select>
-        <option value=""></option>
+      <label htmlFor="selectInput">Empresa: </label>
+      <select
+        id="selectInput"
+        name="idEmpresa"
+        className="w-full p-2 border rounded"
+        onChange={handleChange}
+      >
+        {empresas.map(empresa => {
+          return (
+            <option key={empresa.id} value={empresa.id}>
+              {empresa.denominacion}
+            </option>
+          )
+        })}
       </select>
       {/* Muestra el mensaje de error si existe */}
       {errorMessage && <p className="text-red-500 text-sm">{errorMessage}</p>}

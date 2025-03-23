@@ -1,33 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { EmpresasContext } from '../contexts/EmpresasProvider'
 
 const Home = () => {
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
-  // const [empresas, setEmpresas] = useState([])
-
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     try {
-  //       setIsLoading(true)
-  //       const response = await fetch(
-  //         'http://localhost:8080/empresa/basic/getAll'
-  //       )
-  //       if (!response.ok) {
-  //         throw new Error('Error en la respuesta del servidor')
-  //       }
-  //       const responseJSON = await response.json()
-  //       setEmpresas(responseJSON)
-  //     } catch (error) {
-  //       setError(`Error: ${error.message}`)
-  //     } finally {
-  //       setIsLoading(false)
-  //     }
-  //   }
-
-  //   getData()
-  // }, [])
-
+  const { error, isLoading, empresas } = useContext(EmpresasContext)
   if (error) return <p>{error}</p>
   if (isLoading) return <p>Cargando...</p>
 

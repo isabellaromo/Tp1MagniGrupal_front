@@ -1,32 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
+import { EmpresasContext } from '../../contexts/EmpresasProvider'
 
 //Esta es la lista de Empresas para la tabla de noticias
 const Noticias = () => {
-  const [empresas, setEmpresas] = useState([])
-  const [isLoading, setIsLoading] = useState(null)
-  const [error, setError] = useState(null)
-
-  useEffect(() => {
-    const basicAllEmpresa = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch(
-          'http://localhost:8080/empresa/basic/getAll'
-        )
-        if (!response.ok) {
-          throw Error('Error al obtener las empresas')
-        }
-        const resoponseJSON = await response.json()
-        setEmpresas(resoponseJSON)
-      } catch (error) {
-        setError(error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    basicAllEmpresa()
-  }, [])
+  const { empresas, isLoading, error } = useContext(EmpresasContext)
 
   if (isLoading) return <p>Cargando...</p>
   if (error) return <p>{error}</p>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import FormNoticia from '../../components/FormNoticia'
 import CrearNuevaButton from '../../components/CrearNuevaButton'
+import { EmpresasContext } from '../../contexts/EmpresasProvider'
 
 const initialForm = {
   titulo: '',
@@ -9,12 +10,14 @@ const initialForm = {
   contenidoHTML: '',
   publicada: '',
   fechaPublicacion: '',
+  idEmpresa: null,
 }
 
 const ModalNoticiaPOST = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const [formData, setFormData] = useState(initialForm)
   const [isOpen, setIsOpen] = useState(false)
+  const { empresas } = useContext(EmpresasContext)
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => {
@@ -25,7 +28,9 @@ const ModalNoticiaPOST = () => {
 
   const handleChange = e => {
     const { name, type, checked, value } = e.target
+    //Si el input es un checkbox, usamos checked, sino newValue va a ser el valor que el usuario haya cambiado en otro tipo de input
     const newValue = type === 'checkbox' ? checked : value
+    //Actualizamos los datos del form, reemplazando el atributo que corresponda
     setFormData({ ...formData, [name]: newValue })
   }
 
@@ -33,13 +38,16 @@ const ModalNoticiaPOST = () => {
     e.preventDefault()
     console.log(formData)
     try {
-      const response = await fetch(`http://localhost:8080/noticia/post`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newFormData),
-      })
+      const response = await fetch(
+        `http://localhost:8080/noticia/post/empresa=${formData.idEmpresa}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        }
+      )
 
       if (!response.ok) {
         if (response.status === 409) {
@@ -69,6 +77,7 @@ const ModalNoticiaPOST = () => {
               formData={formData}
               onClose={closeModal}
               errorMessage={errorMessage}
+              empresas={empresas}
             />
           </div>
         </div>
