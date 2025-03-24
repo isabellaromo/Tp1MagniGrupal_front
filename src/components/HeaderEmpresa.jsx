@@ -1,13 +1,16 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router'
 
-const HeaderEmpresa = ({ id }) => {
+const HeaderEmpresa = () => {
+    const {empresaId} = useParams();
+
   const [empresa, setEmpresa] = useState([])
   useEffect(() => {
     const getEmpresa = async () => {
       try {
         const response = await fetch(
-          `http://localhost:8080/empresa/simple/${id}`
+          `http://localhost:8080/empresa/simple/${empresaId}`
         )
 
         if (!response.ok) {
@@ -25,12 +28,12 @@ const HeaderEmpresa = ({ id }) => {
           setEmpresa(responseJSON)
         }
       } catch (error) {
-        setError(`Error: ${error.message}`)
+        console.log(error.message)
       }
     }
 
     getEmpresa()
-  }, [id])
+  }, [empresaId])
 
   return (
     <div className="flex justify-around border-b-8 p-7 border-b-[293241] bg-[#3d5a80]">
