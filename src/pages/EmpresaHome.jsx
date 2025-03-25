@@ -49,7 +49,7 @@ const EmpresaHome = () => {
   if (isLoading) return <p>Cargando...</p>
   return (
     <div>
-      <p>Mostrando información de la empresa con ID: {empresaId}</p>
+      {/* <p>Mostrando información de la empresa con ID: {empresaId}</p> */}
       <HeaderEmpresa id={empresaId} />
       <NavBuscador />
       <BannerEmpresa
