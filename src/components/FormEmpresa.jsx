@@ -46,7 +46,7 @@ const FormEmpresa = ({
         type="number"
         name="latitud"
         placeholder="Latitud (Ej: 11,11111)"
-        value={formData.latitud}
+        value={formData?.latitud}
         onChange={handleChange}
       />
       <Input

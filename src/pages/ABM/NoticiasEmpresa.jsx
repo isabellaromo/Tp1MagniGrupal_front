@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router'
 import DeleteButton from '../../components/DeleteButton'
 import ModalNoticiaPOST from './ModalNoticiaPOST'
+import ModalNoticiaPUT from './ModalNoticiaPUT'
+import EditButton from '../../components/EditButton'
 
 //Esta es la tabla con todas las noticias
 const NoticiasEmpresa = () => {
   const [noticias, setNoticias] = useState([])
+  const [noticiaSeleccionada, setNoticiaSeleccionada] = useState(null)
   const location = useLocation()
   const empresa = location.state
 
@@ -71,9 +74,7 @@ const NoticiasEmpresa = () => {
                 </td>
                 <td className="p-2 border w-1/9">{noticia.fechaPublicacion}</td>
                 <td className="p-2 border w-1/9">
-                  <button className="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600">
-                    Editar
-                  </button>
+                  <EditButton onClick={() => setNoticiaSeleccionada(noticia)} />
                 </td>
                 <td className="p-2 border w-1/9">
                   <DeleteButton idToDelete={noticia.id} type="noticia" />
@@ -83,6 +84,9 @@ const NoticiasEmpresa = () => {
           </tbody>
         </table>
       </div>
+
+      {/* Mostrar el modal SOLO si hay una noticia seleccionada */}
+      {noticiaSeleccionada && <ModalNoticiaPUT noticia={noticiaSeleccionada} />}
     </div>
   )
 }

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import FormEmpresa from '../../components/FormEmpresa'
-
-//TRATAR DE COMPONETIZAR LOS INPUTS
+import EditButton from '../../components/EditButton'
 
 const initialForm = {
   denominacion: '',
@@ -108,12 +107,7 @@ const ModalEmpresaPUT = ({ empresa }) => {
   //  React.createPortal(<MiModal/>, lugarDeRenderizacion). RECOMIENDO AVERIGUAR QUE ONDA
   return (
     <>
-      <button
-        onClick={openModal}
-        className="bg-green-700 text-white px-2 py-1 rounded hover:bg-green-600 shadow-md cursor-pointer shadow-gray-400"
-      >
-        Editar
-      </button>
+      <EditButton onClick={openModal} />
       {isOpen && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">

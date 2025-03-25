@@ -9,7 +9,7 @@ const Input = ({ type, name, placeholder, value, onChange }) => {
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      required
+      {...(type !== 'checkbox' ? { required: true } : {})}
     />
   )
 }

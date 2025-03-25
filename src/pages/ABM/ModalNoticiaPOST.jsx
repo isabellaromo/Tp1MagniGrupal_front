@@ -2,6 +2,7 @@ import React, { useContext, useState } from 'react'
 import FormNoticia from '../../components/FormNoticia'
 import CrearNuevaButton from '../../components/CrearNuevaButton'
 import { EmpresasContext } from '../../contexts/EmpresasProvider'
+import { useParams } from 'react-router'
 
 const initialForm = {
   titulo: '',
@@ -10,7 +11,6 @@ const initialForm = {
   contenidoHTML: '',
   publicada: '',
   fechaPublicacion: '',
-  idEmpresa: null,
 }
 
 const ModalNoticiaPOST = () => {
@@ -18,6 +18,7 @@ const ModalNoticiaPOST = () => {
   const [formData, setFormData] = useState(initialForm)
   const [isOpen, setIsOpen] = useState(false)
   const { empresas } = useContext(EmpresasContext)
+  const { empresaId } = useParams()
 
   const openModal = () => setIsOpen(true)
   const closeModal = () => {
@@ -27,6 +28,7 @@ const ModalNoticiaPOST = () => {
   }
 
   const handleChange = e => {
+    console.log('HandleChange ', e.target)
     const { name, type, checked, value } = e.target
     //Si el input es un checkbox, usamos checked, sino newValue va a ser el valor que el usuario haya cambiado en otro tipo de input
     const newValue = type === 'checkbox' ? checked : value
@@ -36,10 +38,11 @@ const ModalNoticiaPOST = () => {
 
   const handleSubmit = async e => {
     e.preventDefault()
-    console.log(formData)
+
     try {
+      console.log(empresaId)
       const response = await fetch(
-        `http://localhost:8080/noticia/post/empresa=${formData.idEmpresa}`,
+        `http://localhost:8080/noticia/post/empresa=${empresaId}`,
         {
           method: 'POST',
           headers: {
@@ -52,14 +55,14 @@ const ModalNoticiaPOST = () => {
       if (!response.ok) {
         if (response.status === 409) {
           throw new Error(
-            'Ya existe una empresa con un/os de los campos asiciados'
+            'Ya existe una noticia con un/os de los campos asiciados'
           )
         }
         throw new Error(response.statusText)
       }
-      alert('Empresa creada correctamente:', formData.denominacion)
+      alert('Noticia creada correctamente:', formData.denominacion)
     } catch (error) {
-      setErrorMessage(`Error al crear la empresa: ${error.message}`)
+      setErrorMessage(`Error al crear la noticia: ${error.message}`)
     }
     setFormData(initialForm)
   }

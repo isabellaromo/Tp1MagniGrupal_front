@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Buscador from './Buscador'
 import HeaderEmpresa from '../components/headerEmpresa'
+import NavBuscador from '../components/NavBuscador'
 
 const Detalle = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -48,7 +49,7 @@ const Detalle = () => {
     <div>
       <p>{`Mostrando información de la noticia con ID ${noticia.id} de la empresa con ID ${noticia.idEmpresa}`}</p>
       <HeaderEmpresa id={noticia.idEmpresa} />
-      <Buscador />
+      <NavBuscador />
       <div className="w-full flex justify-center mt-15">
         <div className="w-[70%] flex flex-col justify-center">
           <div className="w-full h-[500px] flex justify-center relative overflow-clip rounded-2xl">
