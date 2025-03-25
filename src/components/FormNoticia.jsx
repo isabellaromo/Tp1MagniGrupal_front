@@ -42,6 +42,16 @@ const FormNoticia = ({
         className="w-full p-2 border rounded"
         required
       />
+      <p className="border-gray-400-2 text-gray-400">
+        Para crear tu HTML ingresa{' '}
+        <a
+          href="/tiny.html"
+          target="_blank"
+          className="text-blue-700 underline"
+        >
+          AQUI
+        </a>
+      </p>
       <label htmlFor="inputRadio">¿Se encuentra publicada la noticia?</label>
       {formData?.publicada && (
         <p>Valor actual:{formData?.publicada ? 'Activo' : 'Desactivo'}</p>

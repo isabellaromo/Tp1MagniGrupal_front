@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import NavBuscardor from '../components/NavBuscador'
+import NavBuscador from '../components/NavBuscador'
 import BannerEmpresa from '../components/BannerEmpresa'
 import HeaderEmpresa from '../components/headerEmpresa'
 import Footer from '../components/Footer'
@@ -51,7 +51,7 @@ const EmpresaHome = () => {
     <div>
       {/* <p>Mostrando información de la empresa con ID: {empresaId}</p> */}
       <HeaderEmpresa id={empresaId} />
-      <NavBuscardor />
+      <NavBuscador />
       <BannerEmpresa
         noticias={empresaYNoticias.listaNoticia}
         empresaId={empresaId}
