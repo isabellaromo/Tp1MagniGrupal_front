@@ -41,8 +41,14 @@ const ModalNoticiaPOST = () => {
 
     try {
       console.log(empresaId)
+      const formattedFormData = {
+        ...formData,
+        fechaPublicacion: new Date(formData.fechaPublicacion)
+          .toISOString()
+          .split('T')[0], // Asegurarse de que esté formateada correctamente
+      }
       const response = await fetch(
-        `http://localhost:8080/noticia/post/empresa=${empresaId}`,
+        `http://localhost:8080/noticia/post?empresaId=${empresaId}`,
         {
           method: 'POST',
           headers: {
