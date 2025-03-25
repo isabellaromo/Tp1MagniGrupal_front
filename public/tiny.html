@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script
+      src="https://cdn.tiny.cloud/1/470vl6oydu4y113xe2muphz55fln53vldzpewunxn0v858qz/tinymce/5/tinymce.min.js"
+      referrerpolicy="origin"
+    ></script>
+    <script>
+      tinymce.init({
+        selector: "textarea#editorHtml",
+        plugins:
+          "print preview fullpage paste importcss searchreplace autolink autosave save directionality code visualblocks visualchars fullscreen image link media template codesample table charmap hr pagebreak nonbreaking anchor toc insertdatetime advlist lists wordcount imagetools textpattern noneditable help charmap quickbars emoticons",
+        menubar: "file edit view insert format tools table help",
+        toolbar:
+          "undo redo | bold italic underline strikethrough | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons | fullscreen preview save print | insertfile image media template link anchor codesample | ltr rtl",
+        toolbar_sticky: true,
+        height: 600,
+      });
+    </script>
+  </head>
+  <body>
+    <a href="/abm/noticias">Volver al ABM</a>
+    <textarea id="editorHtml"></textarea>
+    <button onclick="copiarAlPortapapeles()">Copiar 📄</button>
+
+    <script>
+      function copiarAlPortapapeles() {
+        var content = tinymce.get("editorHtml").getContent();
+        navigator.clipboard
+          .writeText(content)
+          .then(() => {
+            alert("Contenido copiado al portapapeles");
+          })
+          .catch((err) => {
+            console.error("Error al copiar: ", err);
+          });
+      }
+    </script>
+  </body>
+</html>
