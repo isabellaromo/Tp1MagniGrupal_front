@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router'
+import { useParams } from 'react-router'
 import DeleteButton from '../../components/DeleteButton'
 import ModalNoticiaPOST from './ModalNoticiaPOST'
 import ModalNoticiaPUT from './ModalNoticiaPUT'
@@ -9,13 +9,16 @@ import EditButton from '../../components/EditButton'
 const NoticiasEmpresa = () => {
   const [noticias, setNoticias] = useState([])
   const [noticiaSeleccionada, setNoticiaSeleccionada] = useState(null)
-  const location = useLocation()
-  const empresa = location.state
+  const { empresaId } = useParams()
+  const empresa = empresaId
+  console.log(empresa)
 
   useEffect(() => {
     const fetchNoticias = async () => {
       try {
-        const response = await fetch('http://localhost:8080/noticia/getAll')
+        const response = await fetch(
+          `http://localhost:8080/noticia/getAll/${empresa}`
+        )
         if (!response.ok) {
           throw new Error(response.status, ' Error al obtener las noticias')
         }
@@ -26,7 +29,7 @@ const NoticiasEmpresa = () => {
       }
     }
     fetchNoticias()
-  }, [])
+  }, [empresa])
 
   return (
     <div className="p-4">
@@ -70,7 +73,7 @@ const NoticiasEmpresa = () => {
                   {noticia.contenidoHtml}
                 </td>
                 <td className="p-2 border w-1/9">
-                  {noticia.publicada ? 'Y' : 'N'}
+                  {noticia.publicada ? 'Publicada' : 'No Publicada'}
                 </td>
                 <td className="p-2 border w-1/9">{noticia.fechaPublicacion}</td>
                 <td className="p-2 border w-1/9">

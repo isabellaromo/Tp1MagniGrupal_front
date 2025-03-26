@@ -2,11 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import EmpresaHome from './pages/EmpresaHome'
 import Buscador from './pages/Buscador'
 import Detalle from './pages/Detalle'
-import Home from './pages/Home'
 import ABM from './pages/ABM/ABM'
 import Empresas from './pages/ABM/Empresas'
-import Noticias from './pages/ABM/Noticias'
-import NoticiasEmpresa from './pages/ABM/NoticiasEmpresa'
 import ContextWrapper from './contexts/ContextWrapper'
 
 function AppRouter() {

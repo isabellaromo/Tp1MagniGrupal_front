@@ -16,7 +16,7 @@ const Noticias = () => {
         <Link
           to={`${empresa.id}/`}
           state={empresa.denominacion}
-          className="text-black bg-green-900 w-[30%] self-center p-5 rounded-3xl cursor-pointer text-center text-2xl "
+          className="text-white bg-green-900 w-[30%] self-center p-5 rounded-3xl cursor-pointer text-center text-2xl "
         >
           <button key={index}>{empresa.denominacion}</button>
         </Link>
