@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom'
 const BannerEmpresa = ({ noticias = [], empresaId }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  // Verificación: Si no hay noticias, no renderizar el componente
-  if (!noticias || noticias.length === 0) {
-    return (
-      <div className="text-center text-white">No hay noticias disponibles</div>
-    )
-  }
+  // // Verificación: Si no hay noticias, no renderizar el componente
+  // if (!noticias || noticias.length === 0) {
+  //   return (
+  //     <div className="text-center text-white">No hay noticias disponibles</div>
+  //   )
+  // }
 
   const nextSlide = () => {
     setCurrentIndex(prevIndex => (prevIndex + 1) % noticias.length)

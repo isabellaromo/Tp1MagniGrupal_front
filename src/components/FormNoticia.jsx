@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import Input from './Input'
 import CancelarButton from './CancelarButton'
 import GuardarButton from './GuardarButton'
+import SubirImagen from "./SubirImagen"
 
 const FormNoticia = ({
   handleChange,
@@ -26,13 +27,15 @@ const FormNoticia = ({
         value={formData?.resumenNoticia}
         onChange={handleChange}
       />
-      <Input
+      <SubirImagen type="text"
+        name="imagenNoticia"  value={formData?.imagenNoticia} onChange={handleChange}/>
+      {/* <Input
         type="text"
         name="imagenNoticia"
         placeholder="URL de Imagen de la Noticia"
         value={formData?.imagenNoticia}
         onChange={handleChange}
-      />
+      /> */}
       <textarea
         type="text"
         name="contenidoHtml"

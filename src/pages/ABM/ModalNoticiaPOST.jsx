@@ -27,15 +27,25 @@ const ModalNoticiaPOST = () => {
     window.location.reload()
   }
 
-  const handleChange = e => {
-    console.log('HandleChange ', e.target)
-    const { name, type, checked, value } = e.target
-    //Si el input es un checkbox, usamos checked, sino newValue va a ser el valor que el usuario haya cambiado en otro tipo de input
-    const newValue = type === 'checkbox' ? checked : value
-    //Actualizamos los datos del form, reemplazando el atributo que corresponda
-    setFormData({ ...formData, [name]: newValue })
-  }
-
+  const handleChange = (e) => {
+    let name, value;
+  
+    if (e.target) {
+      // Caso de inputs normales (text, textarea, checkbox, etc.)
+      const { type, checked } = e.target;
+      name = e.target.name;
+      value = type === 'checkbox' ? checked : e.target.value;
+    } else {
+      // Caso especial de `SubirImagen`, donde enviamos manualmente `{ name, value }`
+      name = e.name;
+      value = e.value;
+    }
+  
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    };
   const handleSubmit = async e => {
     e.preventDefault()
 
