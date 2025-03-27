@@ -1,21 +1,25 @@
-import React, { useState } from "react";
-import { Link, useLocation, useParams } from "react-router";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router'
+import { useNavigate } from 'react-router-dom'
 
 const NavBuscador = () => {
-  const [query, setQuery] = useState("");
-  const { empresaId } = useParams();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const [query, setQuery] = useState('')
+  const { empresaId } = useParams()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const handleSubmitSearch = async (e) => {
-    e.preventDefault();
-    if (location.pathname !== "/buscador") {
-      navigate(`/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(query)}`);
+  const handleSubmitSearch = async e => {
+    e.preventDefault()
+    if (location.pathname !== '/buscador') {
+      navigate(
+        `/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(
+          query
+        )}&newSearch=true`
+      )
     } else {
-      console.log("estamos en buscador")
+      console.log('estamos en buscador')
     }
-  };
+  }
 
   return (
     <div className="flex justify-around w-[100%] ">
@@ -38,7 +42,7 @@ const NavBuscador = () => {
           <div className="relative">
             <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"></div>
             <input
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={e => setQuery(e.target.value)}
               type="search"
               id="default-search"
               className="block w-full p-4 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -70,7 +74,7 @@ const NavBuscador = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default NavBuscador;
+export default NavBuscador

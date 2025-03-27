@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams, useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import HeaderEmpresa from '../components/headerEmpresa'
 import NavBuscador from '../components/NavBuscador'
@@ -6,47 +6,65 @@ import NavBuscador from '../components/NavBuscador'
 const Buscador = () => {
   const location = useLocation()
   const { empresaId } = useParams()
+  const navigate = useNavigate()
+
   const queryParams = new URLSearchParams(location.search)
   const nombreNoticia = queryParams.get('nombreNoticia')
+  const newSearch = queryParams.get('newSearch')
+  const page = parseInt(queryParams.get('page')) || 0
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [resultados, setResultados] = useState([])
-  const [pagina, setPagina] = useState(0)
+  const [pagina, setPagina] = useState(page)
   const [totalPaginas, setTotalPaginas] = useState(1)
 
+  // Resetear la página a 0 solo cuando haya un nuevo término de búsqueda
+  useEffect(() => {
+    if (newSearch === 'true') {
+      setPagina(0)
+    }
+  }, [newSearch])
+
+  // Hacer la petición a la API cada vez que cambien nombreNoticia, pagina o empresaId
   useEffect(() => {
     const fetchNoticias = async () => {
+      if (pagina < 0) return // Si la página no es válida, no hacemos nada
+
       setLoading(true)
       setError(null)
 
       try {
         let url = `http://localhost:8080/noticia/${empresaId}?page=${pagina}&size=5&palabraClave=${nombreNoticia}`
-        let response = await fetch(url)
+        console.log(url)
 
+        let response = await fetch(url)
+        console.log(response)
         if (!response.ok) {
           const errorText = await response.text()
           throw new Error(`Error ${response.status}: ${errorText}`)
         }
 
-        let data = await response.json()
+        const data = await response.json().catch(() => null)
+        if (!data) {
+          throw new Error('Respuesta de la API no es válida')
+        }
 
-        // Si no hay resultados y se envió una palabra clave, buscar noticias recientes
         if (data.content.length === 0 && nombreNoticia) {
           response = await fetch(
             `http://localhost:8080/noticia/getRecent?idEmpresa=${empresaId}&quantity=20`
           )
-
           if (!response.ok) {
             const errorText = await response.text()
             throw new Error(`Error ${response.status}: ${errorText}`)
           }
-
-          data = await response.json()
+          const recentData = await response.json()
+          setResultados(recentData.content || [])
+          setTotalPaginas(recentData.totalPages || 1)
+        } else {
+          setResultados(data.content || [])
+          setTotalPaginas(data.totalPages || 1)
         }
-
-        setResultados(data.content || [])
-        setTotalPaginas(data.totalPages || 1)
       } catch (err) {
         setError(err.message)
       } finally {
@@ -55,7 +73,20 @@ const Buscador = () => {
     }
 
     fetchNoticias()
-  }, [nombreNoticia, pagina])
+  }, [nombreNoticia, pagina, empresaId]) // Este effect se ejecutará cada vez que cambien estos valores
+  // Reejecuta la búsqueda cuando cambian estos valores
+
+  // Sincronizar la URL con el estado de la búsqueda y la página
+  useEffect(() => {
+    if (nombreNoticia) {
+      navigate(
+        `/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(
+          nombreNoticia
+        )}&newSearch=false&page=${pagina}`,
+        { replace: true }
+      )
+    }
+  }, [nombreNoticia, pagina, navigate, empresaId])
 
   return (
     <div>
@@ -126,4 +157,5 @@ const Buscador = () => {
     </div>
   )
 }
+
 export default Buscador
