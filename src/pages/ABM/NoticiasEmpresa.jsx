@@ -11,7 +11,6 @@ const NoticiasEmpresa = () => {
   const [noticiaSeleccionada, setNoticiaSeleccionada] = useState(null)
   const { empresaId } = useParams()
   const empresa = empresaId
-  console.log(empresa)
 
   useEffect(() => {
     const fetchNoticias = async () => {

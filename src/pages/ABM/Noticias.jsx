@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router'
 import { EmpresasContext } from '../../contexts/EmpresasProvider'
 

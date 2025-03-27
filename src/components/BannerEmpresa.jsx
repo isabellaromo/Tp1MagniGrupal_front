@@ -51,7 +51,7 @@ const BannerEmpresa = ({ noticias = [], empresaId }) => {
               {noticias[currentIndex]?.resumenNoticia || 'Sin resumen'}
             </p>
           </div>
-          <button className="md:w-[40%] cursor-pointer flex lg:justify-center text-white text-2xl font-bold h-max">
+          <button className="md:w-[40%] cursor-pointer flex justify-center text-white text-2xl font-bold h-max">
             <Link
               to={`/empresa/${empresaId}/noticia/${
                 noticias[currentIndex]?.id || '0'

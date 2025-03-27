@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import ModalEmpresaPUT from '../pages/ABM/ModalEmpresaPUT'
+import React from 'react'
 
 const EditButton = ({ onClick }) => {
   return (

@@ -20,20 +20,44 @@
   </head>
   <body>
     <a href="/abm/noticias">Volver al ABM</a>
+
     <textarea id="editorHtml"></textarea>
+
     <button onclick="copiarAlPortapapeles()">Copiar 📄</button>
+
+    <!-- Sección donde se mostrará el contenido copiado -->
+    <section id="preview" style="border: 1px solid #ccc; padding: 10px; margin-top: 20px;">
+      <h3>Vista previa del contenido copiado:</h3>
+      <div id="previewContent"></div>
+    </section>
 
     <script>
       function copiarAlPortapapeles() {
-        var content = tinymce.get("editorHtml").getContent();
+        // Obtener contenido del editor
+        var fullContent = tinymce.get("editorHtml").getContent();
+
+        // Crear un elemento temporal para extraer solo lo que está dentro del body
+        var tempDiv = document.createElement("div");
+        tempDiv.innerHTML = fullContent;
+
+        // Extraer solo el contenido relevante
+        var cleanedContent = tempDiv.innerHTML.trim();
+
+        // Envolver el contenido dentro de una <section>
+        var wrappedContent = `<section>\n${cleanedContent}\n</section>`;
+
+        // Copiar al portapapeles
         navigator.clipboard
-          .writeText(content)
+          .writeText(wrappedContent)
           .then(() => {
             alert("Contenido copiado al portapapeles");
           })
           .catch((err) => {
             console.error("Error al copiar: ", err);
           });
+
+        // Insertar el contenido en la sección "preview"
+        document.getElementById("previewContent").innerHTML = wrappedContent;
       }
     </script>
   </body>

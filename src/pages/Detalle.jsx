@@ -47,7 +47,7 @@ const Detalle = () => {
 
   return (
     <div>
-      <p>{`Mostrando información de la noticia con ID ${noticia.id} de la empresa con ID ${noticia.idEmpresa}`}</p>
+      {/* <p>{`Mostrando información de la noticia con ID ${noticia.id} de la empresa con ID ${noticia.idEmpresa}`}</p> */}
       <HeaderEmpresa id={noticia.idEmpresa} />
       <NavBuscador />
       <div className="w-full flex justify-center mt-15">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import FormNoticia from '../../components/FormNoticia'
 
 const ModalNoticiaPUT = ({ noticia }) => {
@@ -14,17 +14,20 @@ const ModalNoticiaPUT = ({ noticia }) => {
 
   const handleChange = e => {
     const { name, value } = e.target
+    console.log('Name: ', name, '. Value: ', value)
     setFormData(prevFormData => ({
       ...prevFormData,
       [name]: value,
     }))
+    console.log(formData)
   }
 
   const handleSubmit = async e => {
     e.preventDefault()
 
+    delete formData.id
+    console.log(formData)
     try {
-      console.log('Soy un PUT, ', formData)
       const response = await fetch(
         `http://localhost:8080/noticia/put/${noticia.id}`,
         {
@@ -47,6 +50,7 @@ const ModalNoticiaPUT = ({ noticia }) => {
       }
 
       alert('Noticia editada correctamente')
+      closeModal()
     } catch (error) {
       setErrorMessage(`Error al crear la noticia: ${error}`)
     }

@@ -5,10 +5,10 @@ import { EmpresasContext } from '../../contexts/EmpresasProvider'
 import { useParams } from 'react-router'
 
 const initialForm = {
-  titulo: '',
-  resumen: '',
-  imagen: '',
-  contenidoHTML: '',
+  tituloNoticia: '',
+  resumenNoticia: '',
+  imagenNoticia: '',
+  contenidoHtml: '',
   publicada: '',
   fechaPublicacion: '',
 }
@@ -28,14 +28,14 @@ const ModalNoticiaPOST = () => {
   }
 
   const handleChange = e => {
-    console.log('HandleChange ', e.target)
-    const { name, type, checked, value } = e.target
-    //Si el input es un checkbox, usamos checked, sino newValue va a ser el valor que el usuario haya cambiado en otro tipo de input
-    const newValue = type === 'checkbox' ? checked : value
-    //Actualizamos los datos del form, reemplazando el atributo que corresponda
-    setFormData({ ...formData, [name]: newValue })
+    const { name, value } = e.target
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [name]: value,
+    }))
+    console.log(formData)
   }
-    
+
   const handleSubmit = async e => {
     e.preventDefault()
 

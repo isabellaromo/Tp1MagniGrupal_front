@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Input from './Input'
 import CancelarButton from './CancelarButton'
 import GuardarButton from './GuardarButton'
@@ -10,6 +10,7 @@ const FormNoticia = ({
   onClose,
   errorMessage,
 }) => {
+  console.log(formData?.publicada)
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <Input
@@ -53,16 +54,16 @@ const FormNoticia = ({
         </a>
       </p>
       <label htmlFor="inputRadio">¿Se encuentra publicada la noticia?</label>
-      {formData?.publicada && (
-        <p>Valor actual:{formData?.publicada ? 'Activo' : 'Desactivo'}</p>
-      )}
-      <Input
-        id="inputRadio"
-        type="checkbox"
+      <select
+        className="block text-lgrounded-md px-3 py-1 border border-black"
         name="publicada"
-        checked={formData?.publicada}
+        id="publicada"
+        defaultValue={formData?.publicada}
         onChange={handleChange}
-      />
+      >
+        <option value={true}>Si</option>
+        <option value={false}>No</option>
+      </select>
       <Input
         type="date"
         name="fechaPublicacion"
