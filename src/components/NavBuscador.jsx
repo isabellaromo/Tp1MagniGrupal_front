@@ -14,7 +14,7 @@ const NavBuscador = () => {
       navigate(
         `/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(
           query
-        )}&newSearch=true`
+        )}&page=0`
       )
     } else {
       console.log('estamos en buscador')

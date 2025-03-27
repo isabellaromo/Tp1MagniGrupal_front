@@ -11,35 +11,35 @@ const Buscador = () => {
   const queryParams = new URLSearchParams(location.search)
   const nombreNoticia = queryParams.get('nombreNoticia')
   const newSearch = queryParams.get('newSearch')
-  const page = parseInt(queryParams.get('page')) || 0
+  const page = parseInt(queryParams.get('page')) || 0 // Usamos el parámetro de la URL
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
   const [resultados, setResultados] = useState([])
-  const [pagina, setPagina] = useState(page)
   const [totalPaginas, setTotalPaginas] = useState(1)
 
   // Resetear la página a 0 solo cuando haya un nuevo término de búsqueda
   useEffect(() => {
     if (newSearch === 'true') {
-      setPagina(0)
+      navigate(
+        `/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(
+          nombreNoticia
+        )}&newSearch=false&page=0`,
+        { replace: true }
+      )
     }
-  }, [newSearch])
+  }, [newSearch, nombreNoticia, empresaId, navigate])
 
-  // Hacer la petición a la API cada vez que cambien nombreNoticia, pagina o empresaId
+  // Hacer la petición a la API cada vez que cambien nombreNoticia, page o empresaId
   useEffect(() => {
     const fetchNoticias = async () => {
-      if (pagina < 0) return // Si la página no es válida, no hacemos nada
-
       setLoading(true)
       setError(null)
-
       try {
-        let url = `http://localhost:8080/noticia/${empresaId}?page=${pagina}&size=5&palabraClave=${nombreNoticia}`
-        console.log(url)
+        let url = `http://localhost:8080/noticia/${empresaId}?page=${page}&size=5&palabraClave=${nombreNoticia}`
+        console.log('URL: ', url)
 
         let response = await fetch(url)
-        console.log(response)
         if (!response.ok) {
           const errorText = await response.text()
           throw new Error(`Error ${response.status}: ${errorText}`)
@@ -73,8 +73,7 @@ const Buscador = () => {
     }
 
     fetchNoticias()
-  }, [nombreNoticia, pagina, empresaId]) // Este effect se ejecutará cada vez que cambien estos valores
-  // Reejecuta la búsqueda cuando cambian estos valores
+  }, [nombreNoticia, page, empresaId])
 
   // Sincronizar la URL con el estado de la búsqueda y la página
   useEffect(() => {
@@ -82,27 +81,40 @@ const Buscador = () => {
       navigate(
         `/empresa/${empresaId}/buscador?nombreNoticia=${encodeURIComponent(
           nombreNoticia
-        )}&newSearch=false&page=${pagina}`,
+        )}&newSearch=false&page=${page}`,
         { replace: true }
       )
     }
-  }, [nombreNoticia, pagina, navigate, empresaId])
+  }, [nombreNoticia, page, navigate, empresaId])
+
+  const handleDecrementPage = () => {
+    if (page > 0) {
+      const newPage = page - 1
+      queryParams.set('page', newPage)
+      navigate(`${location.pathname}?${queryParams.toString()}`)
+    }
+  }
+
+  const handleIncrementPage = () => {
+    if (page < totalPaginas - 1) {
+      const newPage = page + 1
+      queryParams.set('page', newPage)
+      navigate(`${location.pathname}?${queryParams.toString()}`)
+    }
+  }
 
   return (
     <div>
       <HeaderEmpresa />
       <NavBuscador />
-
       {loading && <p>Cargando...</p>}
-
       {!loading && !error && resultados.length > 0 ? (
         <div>
-          {nombreNoticia != '' && (
+          {nombreNoticia !== '' && (
             <h1 className="m-4">
               Resultados de búsqueda para "{nombreNoticia}"
             </h1>
           )}
-
           <ul className="gap-3 flex flex-col m-7">
             {resultados.map(noticia => (
               <li key={noticia.id} className="cursor-pointer">
@@ -127,22 +139,20 @@ const Buscador = () => {
           </ul>
           <div className="flex justify-center gap-4 m-4">
             <button
-              onClick={() => setPagina(prev => Math.max(prev - 1, 0))}
-              disabled={pagina === 0}
+              onClick={handleDecrementPage}
+              disabled={page === 0}
               className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
             >
               Anterior
             </button>
 
             <span>
-              Página {pagina + 1} de {totalPaginas}
+              Página {page + 1} de {totalPaginas}
             </span>
 
             <button
-              onClick={() =>
-                setPagina(prev => (prev + 1 < totalPaginas ? prev + 1 : prev))
-              }
-              disabled={pagina + 1 >= totalPaginas}
+              onClick={handleIncrementPage}
+              disabled={page + 1 >= totalPaginas}
               className="px-4 py-2 bg-gray-300 rounded disabled:opacity-50"
             >
               Siguiente
