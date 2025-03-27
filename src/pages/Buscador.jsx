@@ -1,4 +1,4 @@
-import { useLocation, useParams, useNavigate } from 'react-router-dom'
+import { useLocation, useParams, useNavigate, Link } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import HeaderEmpresa from '../components/headerEmpresa'
 import NavBuscador from '../components/NavBuscador'
@@ -117,24 +117,26 @@ const Buscador = () => {
           )}
           <ul className="gap-3 flex flex-col m-7">
             {resultados.map(noticia => (
-              <li key={noticia.id} className="cursor-pointer">
-                <div className="border-b-2 hover:bg-gray-300">
-                  <div className="flex p-3 gap-1 justify-between">
-                    <div className="flex gap-3">
-                      <img
-                        className="h-[100px]"
-                        src={noticia.imagenNoticia}
-                        alt="Noticia"
-                      />
-                      <h2 className="font-bold w-[50%] text-4xl">
-                        {noticia.tituloNoticia}
-                      </h2>
+              <Link to={`/empresa/${empresaId}/noticia/${noticia.id}`}>
+                <li key={noticia.id} className="cursor-pointer">
+                  <div className="border-b-2 hover:bg-gray-300">
+                    <div className="flex p-3 gap-1 justify-between">
+                      <div className="flex gap-3">
+                        <img
+                          className="h-[100px]"
+                          src={noticia.imagenNoticia}
+                          alt="Noticia"
+                        />
+                        <h2 className="font-bold w-[50%] text-4xl">
+                          {noticia.tituloNoticia}
+                        </h2>
+                      </div>
+                      <h3>{noticia.fechaPublicacion}</h3>
                     </div>
-                    <h3>{noticia.fechaPublicacion}</h3>
+                    <p>{noticia.resumenNoticia}</p>
                   </div>
-                  <p>{noticia.resumenNoticia}</p>
-                </div>
-              </li>
+                </li>
+              </Link>
             ))}
           </ul>
           <div className="flex justify-center gap-4 m-4">

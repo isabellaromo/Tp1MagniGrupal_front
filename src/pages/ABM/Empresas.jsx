@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react'
 import DeleteButton from '../../components/DeleteButton'
 import ModalEmpresaPOST from './ModalEmpresaPOST'
 import ModalEmpresaPUT from './ModalEmpresaPUT'
+import { Link } from 'react-router'
+import VolverABMButton from '../../components/VolverABMButton'
 
 //Esta es la TABLA EMPRESAS
 const Empresas = () => {
@@ -35,6 +37,7 @@ const Empresas = () => {
   return (
     <div className="overflow-x-auto p-4">
       <div className="flex justify-between items-center">
+        <VolverABMButton />
         <h2 className="text-2xl font-bold">LISTADO DE EMPRESAS</h2>
         <ModalEmpresaPOST />
       </div>

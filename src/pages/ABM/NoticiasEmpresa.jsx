@@ -4,6 +4,7 @@ import DeleteButton from '../../components/DeleteButton'
 import ModalNoticiaPOST from './ModalNoticiaPOST'
 import ModalNoticiaPUT from './ModalNoticiaPUT'
 import EditButton from '../../components/EditButton'
+import VolverABMButton from '../../components/VolverABMButton'
 
 //Esta es la tabla con todas las noticias
 const NoticiasEmpresa = () => {
@@ -33,6 +34,7 @@ const NoticiasEmpresa = () => {
   return (
     <div className="p-4">
       <div className="flex justify-between items-center">
+        <VolverABMButton />
         <h2 className="text-2xl font-bold">Noticias empresa {empresa}</h2>
         <ModalNoticiaPOST />
       </div>

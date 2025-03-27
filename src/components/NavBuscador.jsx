@@ -25,7 +25,7 @@ const NavBuscador = () => {
     <div className="flex justify-around w-[100%] ">
       <div className="flex justify-between w-[20%]">
         <button className="underline border-b-2 p-2 bg-gray-300 font-bold">
-          <Link to={`/${empresaId}/empresaHome`}>INICIO</Link>
+          <Link to={`/empresa/${empresaId}`}>INICIO</Link>
         </button>
         <button className="hover:bg-gray-200 cursor-pointer">
           <Link to={`/`}>LISTA EMPRESAS</Link>
