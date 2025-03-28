@@ -15,7 +15,9 @@ const Empresas = () => {
     const getEmpresaYNoticias = async () => {
       try {
         setIsLoading(true)
-        const response = await fetch(`http://localhost:8080/empresa/getAll`)
+        const response = await fetch(
+          `http://localhost:8080/empresa/simple/getAll`
+        )
         if (!response.ok) {
           throw new Error('Error en la respuesta del servidor')
         }
